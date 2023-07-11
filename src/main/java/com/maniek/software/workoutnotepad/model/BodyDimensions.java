@@ -1,5 +1,6 @@
 package com.maniek.software.workoutnotepad.model;
 
+import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -12,6 +13,8 @@ public class BodyDimensions {
 
     @OneToOne
     private User user;
+
+    private String gender;
 
     private double weight;
 
@@ -47,6 +50,14 @@ public class BodyDimensions {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public double getWeight() {

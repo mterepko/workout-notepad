@@ -1,5 +1,6 @@
 package com.maniek.software.workoutnotepad.model;
 
+import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
