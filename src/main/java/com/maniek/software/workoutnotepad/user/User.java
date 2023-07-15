@@ -1,16 +1,16 @@
 package com.maniek.software.workoutnotepad.user;
 
+import com.maniek.software.workoutnotepad.exercise.Exercise;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Getter
@@ -18,6 +18,7 @@ import java.util.Collections;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -38,8 +39,9 @@ public class User implements UserDetails {
 
     private boolean isPrivate;
 
-//    @OneToMany
-//    private Set<Exercise> exerciseSet;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                                             CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Exercise> exerciseList;
 
     public User(String username, String name, String email, String password, UserRole userRole) {
         this.username = username;
@@ -48,6 +50,7 @@ public class User implements UserDetails {
         this.email = email;
         this.isPrivate = true;
         this.userRole = userRole;
+        this.exerciseList = null;
     }
 
 
@@ -76,5 +79,15 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void addExercise(Exercise tempExercise){
+        if (exerciseList == null) {
+            exerciseList = new ArrayList<>();
+        }
+
+        exerciseList.add(tempExercise);
+
+        tempExercise.setUser(this);
     }
 }

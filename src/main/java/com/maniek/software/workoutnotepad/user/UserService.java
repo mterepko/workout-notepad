@@ -39,8 +39,21 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        //TODO: SEND confirmation token
 
-        return "it works";
+        return user.getUsername() + " has been created";
     }
+
+    public User findUserByUsername(String username){
+
+        return userRepository.findByUsername(username).orElse(null);
+
+    }
+
+
+
+
+
+
+
+
 }

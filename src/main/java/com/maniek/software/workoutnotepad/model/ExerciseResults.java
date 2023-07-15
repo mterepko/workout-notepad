@@ -1,5 +1,6 @@
 package com.maniek.software.workoutnotepad.model;
 
+import com.maniek.software.workoutnotepad.exercise.Exercise;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;

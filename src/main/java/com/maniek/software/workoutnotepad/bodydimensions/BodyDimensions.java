@@ -1,4 +1,4 @@
-package com.maniek.software.workoutnotepad.model;
+package com.maniek.software.workoutnotepad.bodydimensions;
 
 import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.Entity;

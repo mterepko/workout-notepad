@@ -1,0 +1,16 @@
+.fit-picture {
+    width: 25px;
+    height: 25px;
+    margin-top: 7px;
+}
+.container {
+
+}
+.col-custom {
+    position: relative;
+    width: 50%;
+    overflow: hidden;
+}
+.short-div {
+    height: 50%;
+}
