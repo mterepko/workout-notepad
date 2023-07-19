@@ -1,10 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="myFunction">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="/static/styles.css" rel="stylesheet" th:href="@{/static/styles.css}"/>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="navLoggedIn">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">workoutnotepad</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Measurements</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Workout</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Exercise
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav" id="navBarLogout">
+                <li class="nav-item">
+                    <a href="#"><img class="fit-picture" src="/static/images/gear.png" th:src="@{/images/gear.png}"
+                     alt ="settings icon" ></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-custom">
+            <h1>Username: HANK</h1>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>gender</th>
+                    <td>Mark</td>
+                </tr>
+                <tr>
+                    <th scope="row">weight</th>
+                    <td>kg</td>
+                </tr>
+                <tr>
+                    <th scope="row">height</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">neck size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">biceps size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">chest size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">forearm size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">waist size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">hips size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">thigh size</th>
+                    <td>cm</td>
+                </tr>
+                <tr>
+                    <th scope="row">calf size</th>
+                    <td>cm</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-custom-small">
+            <div class="short-div">
+                <div id="slides" class="carousel carousel-dark slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <div class="">
+                                <h1>FIRST SLIDE</h1>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="">
+                                <h1>SECOND SLIDE</h1>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="">
+                                <h1>THIRD SLIDE</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#slides" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#slides" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="short-div">
+                <div id="workoutSlides" class="carousel carousel-dark slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <h1>INFO</h1>
+                        </div>
+                        <div class="carousel-item">
+                            <h1>SECOND SLIDE</h1>
+                        </div>
+                        <div class="carousel-item">
+                            <h1>THIRD SLIDE</h1>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#workoutSlides" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#workoutSlides" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <p>RANDOM QUEOTE</p>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
 </body>
 </html>

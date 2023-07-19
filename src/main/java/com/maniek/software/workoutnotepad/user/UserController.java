@@ -2,9 +2,7 @@ package com.maniek.software.workoutnotepad.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 
@@ -15,12 +13,26 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/home")
-    @ResponseBody
+    //@ResponseBody
     public String currentUserName(Principal principal) {
 
 
         User tempUser = userService.findUserByUsername(principal.getName());
         return tempUser.toString();
+    }
+
+
+    @GetMapping("/test/footer")
+    String footerTest(){
+
+        return "header";
+    }
+
+
+    @GetMapping("/test/header")
+    String headerTest(){
+
+        return "asdsa";
     }
 
 

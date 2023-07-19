@@ -1,16 +1,64 @@
+html, body {
+
+    width: 100%;
+    height: 100%;
+}
+
 .fit-picture {
     width: 25px;
     height: 25px;
     margin-top: 7px;
 }
 .container {
+    margin-top: 100px;
 
 }
 .col-custom {
     position: relative;
-    width: 50%;
-    overflow: hidden;
+    width: 40%;
+
+    margin-right: 1rem;
 }
-.short-div {
-    height: 50%;
+
+
+.navbar {
+    padding-left: 16vw;
+    font-family: Verdana;
+    font-size: 20px;
+    border-bottom: 2px solid #333;
+
 }
+
+.navbar-brand {
+    font-size: 24px;
+    margin-right: 10vw;
+}
+
+th {
+    font-weight: normal;
+}
+
+
+
+.navbar-collapse {
+    width:100%;
+}
+
+#navBarLogout {
+    padding-left: 10vw;
+}
+
+.carousel-item {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.carousel-inner {
+
+}
+
+.col-custom-small{
+    margin-left: 10vw;
+}
+
