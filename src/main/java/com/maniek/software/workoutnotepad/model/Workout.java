@@ -15,8 +15,8 @@ public class Workout {
 
     private LocalDate workoutDate;
 
-    @OneToMany
-    private Set<ExerciseResults> exercises;
+//    @OneToMany
+//    private Set<ExerciseResults> exercises;
 
     @Enumerated(value = EnumType.STRING)
     private ProcessStatus processStatus;
@@ -39,13 +39,7 @@ public class Workout {
         this.workoutDate = workoutDate;
     }
 
-    public Set<ExerciseResults> getExercises() {
-        return exercises;
-    }
 
-    public void setExercises(Set<ExerciseResults> exercises) {
-        this.exercises = exercises;
-    }
 
     public ProcessStatus getProcessStatus() {
         return processStatus;

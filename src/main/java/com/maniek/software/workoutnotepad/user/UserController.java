@@ -25,7 +25,7 @@ public class UserController {
     @GetMapping("/test/footer")
     String footerTest(){
 
-        return "header";
+        return "fragments/header";
     }
 
 

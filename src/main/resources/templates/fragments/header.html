@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap test</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link href="/static/styles.css" rel="stylesheet" th:href="@{/static/styles.css}"/>
+    <link href="/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="navLoggedIn">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="navLoggedIn" id="navbarLoggedIn">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">workoutnotepad</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
             </ul>
             <ul class="navbar-nav" id="navBarLogout">
                 <li class="nav-item">
-                    <a href="#"><img class="fit-picture" src="/static/images/gear.png" th:src="@{/images/gear.png}"
+                    <a href="#"><img class="fit-picture" src="/static/images/gear.png" th:src="@{/static/images/gear.png}"
                      alt ="settings icon" ></a>
                 </li>
                 <li class="nav-item">
@@ -162,7 +162,7 @@
 </div>
 
 <div>
-    <p>RANDOM QUEOTE</p>
+    <p>RANDOM QUOTE</p>
 </div>
 
 

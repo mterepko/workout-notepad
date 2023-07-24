@@ -1,0 +1,137 @@
+html, body {
+
+    width: 100%;
+    height: 100%;
+}
+
+.fit-picture {
+    width: 25px;
+    height: 25px;
+    margin-top: 7px;
+}
+.container {
+    margin-top: 100px;
+
+}
+.col-custom {
+    position: relative;
+    width: 40%;
+
+    margin-right: 1rem;
+}
+
+
+#navbarLoggedIn {
+    padding-left: 16vw;
+    font-family: Verdana;
+    font-size: 24px;
+    border-bottom: 2px solid #333;
+
+}
+
+#navbarNotLoggedIn {
+    text-align: center;
+    font-family: Verdana;
+    font-size: 24px;
+    border-bottom: 2px solid #333;
+    position: relative;
+}
+
+#navbarNotLoggedIn .navbar-brand {
+    font-size: 24px;
+    transform: translateX(-50%);
+    left: 50%;
+    position: relative;
+    display: block;
+}
+
+#navbarLoggedIn .navbar-brand {
+
+    font-size: 24px;
+}
+
+th {
+    font-weight: normal;
+}
+
+#navbarNotLoggedIn .container-fluid {
+
+}
+
+
+.navbar-collapse {
+    width:100%;
+}
+#navbarLoggedIn #navBarLogout {
+    padding-left: 10vw;
+}
+#navbarNotLoggedIn #navBarLogout {
+    left: 60%;
+    position: relative;
+}
+
+.nav-link {
+    font-size: 20px;
+}
+
+.carousel-item {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.carousel-inner {
+
+}
+
+.col-custom-small{
+    margin-left: 10vw;
+}
+
+.separator {
+    position: relative;
+
+}
+
+.registrationForm {
+    margin-top: 5vh;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+}
+
+.registrationForm #inputUsername {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+}
+
+.registrationForm #inputFirstName {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+}
+
+.registrationForm #inputEmail {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+}
+
+.registrationForm #inputPassword {
+    width: 300px;
+    margin: 0 auto;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.registrationForm .btn {
+    border: 1px solid #333;
+    border-radius: 0;
+}
+.div-input {
+    text-align: center;
+}
