@@ -26,12 +26,16 @@ public class UserService implements UserDetailsService {
                         new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
-    public String singUpUser(User user){
-        boolean userExists = userRepository.findByUsername(user.getUsername())
+    public void singUpUser(User user) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
+        boolean usernameExists = userRepository.findByUsername(user.getUsername())
                 .isPresent();
 
-        if(userExists){
-            throw new IllegalStateException("email already taken");
+        boolean emailExists = userRepository.findByEmail(user.getEmail()).isPresent();
+
+        if(usernameExists){
+            throw new UsernameAlreadyExistsException("email or username already taken");
+        } else if(emailExists){
+            throw new EmailAlreadyExistsException("User with provided email already exists");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
@@ -39,8 +43,6 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-
-        return user.getUsername() + " has been created";
     }
 
     public User findUserByUsername(String username){

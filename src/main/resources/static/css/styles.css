@@ -98,6 +98,7 @@ th {
     text-align: center;
     font-family: Verdana;
     font-size: 20px;
+
 }
 
 .registrationForm #inputUsername {
@@ -132,6 +133,21 @@ th {
     border: 1px solid #333;
     border-radius: 0;
 }
-.div-input {
+
+.registrationForm .alert {
+    width: 300px;
+    font-size: 12px;
     text-align: center;
+    margin: 0 auto;
+}
+
+.div-success {
+    text-align: center;
+    font-family: Verdana;
+    font-size: 30px;
+}
+
+.div-success .btn{
+    border: 1px solid #333;
+    border-radius: 0;
 }

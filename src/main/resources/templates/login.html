@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="/static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
+<nav class="navbar navbar-expand-lg bg-body-tertiary"  id="navbarNotLoggedIn">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">workoutnotepad</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav" id="navBarLogout">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign In</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<form class="registrationForm" action="#" method="post" th:action="@{/authenticateTheUser}">
+
+    <div class="form-group">
+        <div class="col">
+            <div class = "d-flex justify-content-center">
+                <div  th:if="${param.error}">
+
+                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        Invalid username or password.
+                    </div>
+
+                </div>
+                <div class = "alert-login" th:if="${param.logout}">
+
+                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        You have been successfully logged out.
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="div-input mb-3">
+        <label for="inputUsername" class="form-label">Username</label>
+        <input type="text" name="username"  class="form-control" id="inputUsername">
+    </div>
+    <div class="div-input mb-3">
+        <label for="inputPassword" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="inputPassword">
+    </div>
+    <button type="submit" class="btn btn-light">Submit</button>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}">...</div>
 </body>
 </html>

@@ -1,9 +1,7 @@
 package com.maniek.software.workoutnotepad.bodydimensions;
 
 import com.maniek.software.workoutnotepad.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class BodyDimensions {
@@ -11,7 +9,8 @@ public class BodyDimensions {
     @Id
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "bodyDimensions", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     private User user;
 
     private String gender;

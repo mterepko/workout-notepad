@@ -29,11 +29,19 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/css/**")
                         .permitAll()
-                        .requestMatchers("/test/**")
+                        .requestMatchers("/images/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .formLogin(withDefaults())
+                .formLogin(form ->
+                        form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .permitAll()
+                                .defaultSuccessUrl("/", true)
+                )
+                .logout(logout -> logout.permitAll()
+                )
                 .authenticationProvider(daoAuthenticationProvider());
 
 

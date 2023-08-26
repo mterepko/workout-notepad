@@ -1,5 +1,6 @@
 package com.maniek.software.workoutnotepad.user;
 
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,9 +40,13 @@ public class User implements UserDetails {
 
     private boolean isPrivate;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                                             CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Exercise> exerciseList;
+//    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+//                                             CascadeType.PERSIST, CascadeType.REFRESH})
+//    private List<Exercise> exerciseList;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "body_dimensions_id")
+    private BodyDimensions bodyDimensions;
 
     public User(String username, String name, String email, String password, UserRole userRole) {
         this.username = username;
@@ -50,7 +55,7 @@ public class User implements UserDetails {
         this.email = email;
         this.isPrivate = true;
         this.userRole = userRole;
-        this.exerciseList = null;
+        //this.exerciseList = null;
     }
 
 
@@ -81,13 +86,13 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void addExercise(Exercise tempExercise){
-        if (exerciseList == null) {
-            exerciseList = new ArrayList<>();
-        }
-
-        exerciseList.add(tempExercise);
-
-        tempExercise.setUser(this);
-    }
+//    public void addExercise(Exercise tempExercise){
+//        if (exerciseList == null) {
+//            exerciseList = new ArrayList<>();
+//        }
+//
+//        exerciseList.add(tempExercise);
+//
+//        tempExercise.setUser(this);
+//    }
 }
