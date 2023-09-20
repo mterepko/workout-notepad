@@ -9,4 +9,9 @@ public class BodyDimensionsService {
 
     private final BodyDimensionsRepository bodyDimensionsRepository;
 
+
+    public void create(BodyDimensions bodyDimensions){
+        bodyDimensionsRepository.save(bodyDimensions);
+    }
+
 }
