@@ -2,16 +2,21 @@ package com.maniek.software.workoutnotepad.bodydimensions;
 
 import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@ToString
 public class BodyDimensions {
 
     @Id
     private Long id;
-
-    @OneToOne(mappedBy = "bodyDimensions", cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
-    private User user;
 
     private String gender;
 
@@ -35,107 +40,26 @@ public class BodyDimensions {
 
     private double calfSize;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                          CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public BodyDimensions(String gender, double weight, double height, double neckSize,
+                          double bicepsSize, double chestSize, double forearmSize, double waistSize,
+                          double hipsSize, double thighSize, double calfSize, User user) {
+        this.gender = gender;
+        this.weight = weight;
+        this.height = height;
+        this.neckSize = neckSize;
+        this.bicepsSize = bicepsSize;
+        this.chestSize = chestSize;
+        this.forearmSize = forearmSize;
+        this.waistSize = waistSize;
+        this.hipsSize = hipsSize;
+        this.thighSize = thighSize;
+        this.calfSize = calfSize;
         this.user = user;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getNeckSize() {
-        return neckSize;
-    }
-
-    public void setNeckSize(double neckSize) {
-        this.neckSize = neckSize;
-    }
-
-    public double getBicepsSize() {
-        return bicepsSize;
-    }
-
-    public void setBicepsSize(double bicepsSize) {
-        this.bicepsSize = bicepsSize;
-    }
-
-    public double getChestSize() {
-        return chestSize;
-    }
-
-    public void setChestSize(double chestSize) {
-        this.chestSize = chestSize;
-    }
-
-    public double getForearmSize() {
-        return forearmSize;
-    }
-
-    public void setForearmSize(double forearmSize) {
-        this.forearmSize = forearmSize;
-    }
-
-    public double getWaistSize() {
-        return waistSize;
-    }
-
-    public void setWaistSize(double waistSize) {
-        this.waistSize = waistSize;
-    }
-
-    public double getHipsSize() {
-        return hipsSize;
-    }
-
-    public void setHipsSize(double hipsSize) {
-        this.hipsSize = hipsSize;
-    }
-
-    public double getThighSize() {
-        return thighSize;
-    }
-
-    public void setThighSize(double thighSize) {
-        this.thighSize = thighSize;
-    }
-
-    public double getCalfSize() {
-        return calfSize;
-    }
-
-    public void setCalfSize(double calfSize) {
-        this.calfSize = calfSize;
-    }
 }

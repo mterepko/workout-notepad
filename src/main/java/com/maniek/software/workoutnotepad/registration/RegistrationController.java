@@ -31,7 +31,7 @@ public class RegistrationController {
             if(e instanceof UsernameAlreadyExistsException){
                 bindingResult.rejectValue("username", "registrationRequest.username",
                         "An account already exists for this username");
-            } else if(e instanceof EmailAlreadyExistsException){
+            } else {
                 bindingResult.rejectValue("email", "registrationRequest.email",
                         "An account already exists for this email");
             }
