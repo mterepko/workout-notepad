@@ -19,4 +19,11 @@ spring:
   h2:
     console:
       enabled: false
-
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: trace
+        orm:
+          jdbc:
+            bind: trace

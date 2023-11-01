@@ -19,7 +19,9 @@ public class UserController {
 
 
         User tempUser = userService.findUserByUsername(principal.getName());
-        System.out.println(principal);
+
+        model.addAttribute("user", tempUser);
+        model.addAttribute("bodyDimension", tempUser.getListOfBodyDimensions());
 
         return "index";
     }

@@ -53,7 +53,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-custom">
+        <div th:if="${not #lists.isEmpty(bodyDimension)}" class="col-md-6 col-custom">
             <h1>
                 <span>Welcome </span>
                 <span sec:authentication="name"></span>
@@ -63,50 +63,53 @@
                 <tbody>
                 <tr>
                     <th>gender</th>
-                    <td>Mark</td>
+                    <td th:text="${bodyDimension.get(0).getGender()}">Mark</td>
                 </tr>
                 <tr>
                     <th scope="row">weight</th>
-                    <td>kg</td>
+                    <td th:text="${bodyDimension.get(0).getWeight() + ' kg'}">kg</td>
                 </tr>
                 <tr>
                     <th scope="row">height</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getHeight() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">neck size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getNeckSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">biceps size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getBicepsSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">chest size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getChestSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">forearm size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getForearmSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">waist size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getWaistSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">hips size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getHipsSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">thigh size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getThighSize() + ' cm'}">cm</td>
                 </tr>
                 <tr>
                     <th scope="row">calf size</th>
-                    <td>cm</td>
+                    <td th:text="${bodyDimension.get(0).getCalfSize() + ' cm'}">cm</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div th:unless="${not #lists.isEmpty(bodyDimension)}" class="col-md-6 col-custom">
+            no body dimensions to display, please fill
         </div>
         <div class="col-md-4 col-custom-small">
             <div class="short-div">

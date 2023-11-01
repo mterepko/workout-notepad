@@ -45,7 +45,7 @@ public class User implements UserDetails {
 //    private List<Exercise> exerciseList;
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "user")
-    private List<BodyDimensions> ListOfBodyDimensions;
+    private List<BodyDimensions> listOfBodyDimensions;
 
     public User(String username, String name, String email, String password, UserRole userRole) {
         this.username = username;
@@ -97,9 +97,9 @@ public class User implements UserDetails {
 
     // support class to associate body dimension with user
     public void addBodyDimensions(BodyDimensions bodyDimensions){
-        if(ListOfBodyDimensions == null){
-            ListOfBodyDimensions = new ArrayList<>();
+        if(listOfBodyDimensions == null){
+            listOfBodyDimensions = new ArrayList<>();
         }
-        ListOfBodyDimensions.add(bodyDimensions);
+        listOfBodyDimensions.add(bodyDimensions);
     }
 }
