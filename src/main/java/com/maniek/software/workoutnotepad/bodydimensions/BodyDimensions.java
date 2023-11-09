@@ -2,7 +2,6 @@ package com.maniek.software.workoutnotepad.bodydimensions;
 
 import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +15,8 @@ import lombok.ToString;
 public class BodyDimensions {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String gender;
 
     private double weight;
 
@@ -45,10 +43,10 @@ public class BodyDimensions {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public BodyDimensions(String gender, double weight, double height, double neckSize,
+    public BodyDimensions( double weight, double height, double neckSize,
                           double bicepsSize, double chestSize, double forearmSize, double waistSize,
-                          double hipsSize, double thighSize, double calfSize, User user) {
-        this.gender = gender;
+                          double hipsSize, double thighSize, double calfSize) {
+
         this.weight = weight;
         this.height = height;
         this.neckSize = neckSize;
@@ -59,7 +57,6 @@ public class BodyDimensions {
         this.hipsSize = hipsSize;
         this.thighSize = thighSize;
         this.calfSize = calfSize;
-        this.user = user;
     }
 
 }

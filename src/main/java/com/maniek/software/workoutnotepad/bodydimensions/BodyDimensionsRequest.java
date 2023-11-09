@@ -1,6 +1,6 @@
 package com.maniek.software.workoutnotepad.bodydimensions;
 
-import com.maniek.software.workoutnotepad.user.User;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,5 +31,4 @@ public class BodyDimensionsRequest {
 
     private double calfSize;
 
-    private String userName;
 }

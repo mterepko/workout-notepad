@@ -1,10 +1,14 @@
 package com.maniek.software.workoutnotepad.user;
 
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 import java.security.Principal;
 
@@ -26,19 +30,32 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping("/add-measurements")
+    public String addBodyDimensions(Model model){
 
-    @GetMapping("/test/footer")
-    String footerTest(){
 
-        return "fragments/header";
+
+        model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
+
+        return "addBodyDimensions";
     }
 
+    @PostMapping("add-measurements")
+    public String addBodyDimensions(@Valid BodyDimensionsRequest bodyDimensionsRequest, Model model,
+                                    BindingResult bindingResult, Principal principal){
 
-    @GetMapping("/test/header")
-    String headerTest(){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("bodyDimensionsRequest", bodyDimensionsRequest);
+            return "addBodyDimensions";
+        }
 
-        return "asdsa";
+        User tempUser = userService.findUserByUsername(principal.getName());
+
+        userService.addBodyDimensions(tempUser, bodyDimensionsRequest);
+
+        return "redirect:/";
     }
+
 
 
 

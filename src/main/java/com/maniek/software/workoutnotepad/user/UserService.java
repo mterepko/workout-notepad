@@ -1,13 +1,13 @@
 package com.maniek.software.workoutnotepad.user;
 
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,6 +49,17 @@ public class UserService implements UserDetailsService {
 
         return userRepository.findByUsername(username).orElse(null);
 
+    }
+
+    public void addBodyDimensions(User user, BodyDimensionsRequest bodyDimensionsRequest){
+
+        user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
+                bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
+                bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
+                bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
+                bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize()));
+
+        userRepository.save(user);
     }
 
 

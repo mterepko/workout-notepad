@@ -11,6 +11,7 @@ html, body {
 }
 .container {
     margin-top: 100px;
+    font-family: Verdana;
 
 }
 .col-custom {
@@ -54,18 +55,18 @@ th {
     font-weight: normal;
 }
 
-#navbarNotLoggedIn .container-fluid {
-
+#navbarLoggedIn .container-fluid {
+    padding-left: 60px;
 }
 
 
 .navbar-collapse {
     width:100%;
 }
-#navbarLoggedIn #navBarLogout {
+#navbarLoggedIn #navBarLoggedLogout {
     padding-left: 10vw;
 }
-#navbarNotLoggedIn #navBarLogout {
+#navbarNotLoggedIn #navBarNotLoggedLogout {
     left: 60%;
     position: relative;
 }
@@ -150,4 +151,49 @@ th {
 .div-success .btn{
     border: 1px solid #333;
     border-radius: 0;
+}
+
+.bodyDimensionForm {
+    margin-top: 5vh;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+}
+
+
+.bodyDimensionForm input {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+.bodyDimensionForm .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.bodyDimensionForm #bodyDimensionsSubmit {
+    padding-top: 38px;
+}
+
+.bodyDimensionForm #lastRow {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+#addBodyDimensionsBtn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.col-bd {
+    text-align: center;
+}
+
+.col-bd-display {
+    padding-left: 80px;
 }

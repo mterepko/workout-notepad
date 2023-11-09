@@ -1,7 +1,7 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
-import com.maniek.software.workoutnotepad.exercise.Exercise;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -101,5 +101,7 @@ public class User implements UserDetails {
             listOfBodyDimensions = new ArrayList<>();
         }
         listOfBodyDimensions.add(bodyDimensions);
+
+        bodyDimensions.setUser(this);
     }
 }

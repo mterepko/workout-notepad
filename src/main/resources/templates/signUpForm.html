@@ -9,23 +9,8 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary"  id="navbarNotLoggedIn">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">workoutnotepad</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav" id="navBarLogout">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sign In</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<nav th:replace="~{fragments/header :: navbarNotLoggedIn}"   id="navbarNotLoggedIn">
+
 </nav>
 
 <form class="registrationForm" action="#" method="post" th:action="@{/register}" th:object="${registrationRequest}">
