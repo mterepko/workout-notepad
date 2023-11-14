@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -18,8 +20,6 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //private User user;
-
     private String name;
 
     private boolean hasReps;
@@ -28,14 +28,14 @@ public class Exercise {
 
     private boolean hasSeries;
 
-    //private int timeOfExerciseSeconds;
-
     private boolean hasTime;
 
-//    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-//                          CascadeType.PERSIST, CascadeType.REFRESH})
-//    @JoinColumn(name="user_id")
-//    private User user;
+    private Date creationDate;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                          CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 
     private String description;
 
@@ -46,6 +46,7 @@ public class Exercise {
         this.hasSeries = hasSeries;
         this.hasTime = hasTime;
         this.description = description;
+        this.creationDate = new Date();
     }
 
     @Override

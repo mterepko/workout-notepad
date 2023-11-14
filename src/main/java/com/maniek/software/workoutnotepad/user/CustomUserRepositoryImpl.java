@@ -18,6 +18,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
         TypedQuery<User> query = entityManager.createQuery("select u from User u "
                 + "LEFT JOIN FETCH u.listOfBodyDimensions "
+                + "LEFT JOIN FETCH u.listOfExercises "
                 + "WHERE u.username = :data", User.class);
 
         query.setParameter("data", username);

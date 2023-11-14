@@ -20,17 +20,5 @@ public class ExerciseController {
     private final UserService userService;
 
 
-    @PostMapping("/exercises")
-    public String createExercise(@RequestBody ExerciseRequest exerciseRequest){
-        return exerciseService.createExercise(exerciseRequest);
-    }
 
-    @GetMapping("/userEx")
-    public String currentUserName(Principal principal) {
-
-
-        User tempUser = userService.findUserByUsername(principal.getName());
-
-        return tempUser.toString();
-    }
 }

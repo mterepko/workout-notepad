@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="myFunction">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adding exercise ...</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="/static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navLoggedIn}" id="navbarLoggedIn">
+
+</nav>
+
+<form class="exerciseForm" action="#" method="post" th:action="@{/add-exercise}" th:object="${ExerciseRequest}">
+  <div class="container">
+    <div class="row">
+
+      <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+        <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
+      </div>
+
+      <div class="div-input mb-3">
+        <label for="inputName" class="form-label">Name of the exercise</label>
+        <input type="text"  th:field="*{name}" class="form-control" id="inputName">
+      </div>
+      <div class="col">
+        <br>
+        <div>
+          Which of the following do your exercise includes?
+        </div>
+        <div class="div-check">
+          <div class="form-check">
+            <input class="form-check-input" name="hasReps" type="checkbox" th:value="true" id="checkReps" th:checked="${ExerciseRequest.hasReps}">
+            <label  class="form-check-label" for="checkReps">reps</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" name="hasSeries" type="checkbox" th:value="true" id="checkSeries" th:checked="${ExerciseRequest.hasSeries}">
+            <label class="form-check-label" for="checkSeries">series</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" name="hasWeight" type="checkbox" id="checkWeight" th:value="true" th:checked="${ExerciseRequest.hasWeight}">
+            <label class="form-check-label" for="checkWeight">reps</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" name="hasTime" type="checkbox" id="checkTime" th:value="true" th:checked="${ExerciseRequest.hasTime}">
+            <label class="form-check-label" for="checkTime">time</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col div-input mb-3">
+        <br>
+        <label for="inputDescription" class="form-label">Description</label>
+
+        <textarea maxlength="255" th:field="*{description}" class="form-control" id="inputDescription"></textarea>
+      </div>
+
+
+      <div class="" id="bodyDimensionsSubmit">
+        <br>
+        <button type="submit" class="btn btn-light">Submit</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</form>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+</html>

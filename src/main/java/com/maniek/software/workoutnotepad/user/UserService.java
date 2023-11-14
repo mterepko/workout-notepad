@@ -3,6 +3,8 @@ package com.maniek.software.workoutnotepad.user;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 
+import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,6 +64,13 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void addExercise(User user, ExerciseRequest exerciseRequest){
+
+        user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(), exerciseRequest.isHasWeight(),
+                        exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(), exerciseRequest.getDescription()));
+
+        userRepository.save(user);
+    }
 
 
 

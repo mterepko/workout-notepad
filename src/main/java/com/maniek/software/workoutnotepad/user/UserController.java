@@ -1,6 +1,8 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
+import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,31 @@ public class UserController {
         User tempUser = userService.findUserByUsername(principal.getName());
 
         userService.addBodyDimensions(tempUser, bodyDimensionsRequest);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/add-exercise")
+    public String addExercise(Model model){
+
+
+        model.addAttribute("ExerciseRequest", new ExerciseRequest());
+
+        return "addExercise";
+    }
+
+    @PostMapping("/add-exercise")
+    public String addExercise(@Valid ExerciseRequest exerciseRequest, Model model, BindingResult bindingResult,
+                              Principal principal){
+
+
+
+
+
+        User tempUser = userService.findUserByUsername(principal.getName());
+
+        userService.addExercise(tempUser, exerciseRequest);
+
 
         return "redirect:/";
     }
