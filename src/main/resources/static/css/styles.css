@@ -79,14 +79,38 @@ th {
     height: 100%;
     width: 100%;
     text-align: center;
+
+}
+
+.short-div {
+    padding-top: 3rem;
+
 }
 
 .carousel-inner {
+    height: 15rem;
+    display: flex;
 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.container h1 {
+    font-size: 28px;
+}
+
+.col-bd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 .col-custom-small{
-    margin-left: 10vw;
+    text-align: center;
 }
 
 .separator {
@@ -184,7 +208,7 @@ th {
     padding-right: 200px;
 }
 
-#addBodyDimensionsBtn {
+#addBodyDimensionsBtn, #addExercise, #addExerciseSecond, #addNewWorkout, #addNewWorkoutSecond {
     width: 200px;
     border: 1px solid #333;
     border-radius: 0;
@@ -304,3 +328,4 @@ th {
 .exerciseForm .form-check-input {
     padding-left: 40px;
 }
+

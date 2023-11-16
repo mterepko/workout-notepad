@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Entity
@@ -38,6 +40,8 @@ public class BodyDimensions {
 
     private double calfSize;
 
+    private Date creationDate;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
                           CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -45,7 +49,7 @@ public class BodyDimensions {
 
     public BodyDimensions( double weight, double height, double neckSize,
                           double bicepsSize, double chestSize, double forearmSize, double waistSize,
-                          double hipsSize, double thighSize, double calfSize) {
+                          double hipsSize, double thighSize, double calfSize, Date creationDate) {
 
         this.weight = weight;
         this.height = height;
@@ -57,6 +61,7 @@ public class BodyDimensions {
         this.hipsSize = hipsSize;
         this.thighSize = thighSize;
         this.calfSize = calfSize;
+        this.creationDate = creationDate;
     }
 
 }

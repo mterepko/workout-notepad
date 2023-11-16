@@ -28,7 +28,7 @@ public class UserController {
 
         model.addAttribute("user", tempUser);
         model.addAttribute("bodyDimension", tempUser.getListOfBodyDimensions());
-
+        model.addAttribute("exercises", tempUser.getListOfExercises());
         return "index";
     }
 

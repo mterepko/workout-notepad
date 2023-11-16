@@ -39,14 +39,15 @@ public class Exercise {
 
     private String description;
 
-    public Exercise(String name, boolean hasReps, boolean hasWeight, boolean hasSeries, boolean hasTime, String description) {
+    public Exercise(String name, boolean hasReps, boolean hasWeight, boolean hasSeries, boolean hasTime,
+                    String description, Date creationDate) {
         this.name = name;
         this.hasReps = hasReps;
         this.hasWeight = hasWeight;
         this.hasSeries = hasSeries;
         this.hasTime = hasTime;
         this.description = description;
-        this.creationDate = new Date();
+        this.creationDate = creationDate;
     }
 
     @Override
