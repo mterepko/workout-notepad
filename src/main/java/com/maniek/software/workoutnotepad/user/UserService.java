@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -59,15 +61,16 @@ public class UserService implements UserDetailsService {
                 bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
                 bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
                 bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
-                bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize()));
+                bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
 
         userRepository.save(user);
     }
 
     public void addExercise(User user, ExerciseRequest exerciseRequest){
 
-        user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(), exerciseRequest.isHasWeight(),
-                        exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(), exerciseRequest.getDescription()));
+        user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
+                exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),
+                exerciseRequest.getDescription(), new Date()));
 
         userRepository.save(user);
     }
