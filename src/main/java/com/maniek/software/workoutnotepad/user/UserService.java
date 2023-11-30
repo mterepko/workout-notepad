@@ -55,7 +55,11 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void addBodyDimensions(User user, BodyDimensionsRequest bodyDimensionsRequest){
+    public void addBodyDimensions(String name, BodyDimensionsRequest bodyDimensionsRequest){
+
+        User user = userRepository.findByUsername(name).orElse(null);
+
+        if(user == null) return;
 
         user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
                 bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
@@ -64,9 +68,15 @@ public class UserService implements UserDetailsService {
                 bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
 
         userRepository.save(user);
+
+
     }
 
-    public void addExercise(User user, ExerciseRequest exerciseRequest){
+    public void addExercise(String name, ExerciseRequest exerciseRequest){
+
+        User user = userRepository.findByUsername(name).orElse(null);
+
+        if(user == null) return;
 
         user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
                 exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),

@@ -328,4 +328,63 @@ th {
 .exerciseForm .form-check-input {
     padding-left: 40px;
 }
+.workoutForm {
+    margin-top: 5vh;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+}
+.workoutForm #inputName  {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+    text-align: center;
+}
 
+.workoutForm input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+.workoutForm input[type="checkbox"]:checked {
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+
+.workoutForm .container {
+    margin-top:  1vh;
+}
+
+.workoutForm .table {
+    font-size: 14px;
+    width: 100%;
+
+}
+
+.workoutForm h2 {
+    font-size: 24px;
+}
+
+.workoutForm .div-table {
+    max-height: 435px;
+    overflow-y: auto;
+}
+
+.workoutForm .div-table-adjusted {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.workoutForm .fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}

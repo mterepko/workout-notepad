@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
+public interface ExerciseRepository extends JpaRepository<Exercise, Long>, CustomExerciseRepository {
 
-  //  List<Exercise> findByUserId(Long UserId);
+  List<Exercise> findOtherUsersExercises(String username);
 }

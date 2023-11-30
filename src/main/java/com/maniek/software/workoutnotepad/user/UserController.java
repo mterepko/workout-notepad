@@ -3,6 +3,7 @@ package com.maniek.software.workoutnotepad.user;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
+import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+
+    private final ExerciseService exerciseService;
 
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
@@ -51,9 +54,8 @@ public class UserController {
             return "addBodyDimensions";
         }
 
-        User tempUser = userService.findUserByUsername(principal.getName());
 
-        userService.addBodyDimensions(tempUser, bodyDimensionsRequest);
+        userService.addBodyDimensions(principal.getName(), bodyDimensionsRequest);
 
         return "redirect:/";
     }
@@ -72,15 +74,20 @@ public class UserController {
                               Principal principal){
 
 
-
-
-
-        User tempUser = userService.findUserByUsername(principal.getName());
-
-        userService.addExercise(tempUser, exerciseRequest);
+        userService.addExercise(principal.getName(), exerciseRequest);
 
 
         return "redirect:/";
+    }
+
+    @GetMapping("/add-workout")
+    public String addWorkout(Model model, Principal principal){
+
+        User tempUser = userService.findUserByUsername(principal.getName());
+
+        model.addAttribute("exercises", tempUser.getListOfExercises());
+        model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
+        return "addWorkout";
     }
 
 

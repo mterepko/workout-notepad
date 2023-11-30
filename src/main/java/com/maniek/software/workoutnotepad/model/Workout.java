@@ -2,18 +2,23 @@ package com.maniek.software.workoutnotepad.model;
 
 import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 public class Workout {
 
 
     @Id
     private Long id;
 
-    private LocalDate workoutDate;
+    private Date workoutDate;
 
 //    @OneToMany
 //    private Set<ExerciseResults> exercises;
@@ -23,37 +28,5 @@ public class Workout {
     @ManyToOne
     private User user;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getWorkoutDate() {
-        return workoutDate;
-    }
-
-    public void setWorkoutDate(LocalDate workoutDate) {
-        this.workoutDate = workoutDate;
-    }
-
-
-
-    public ProcessStatus getProcessStatus() {
-        return processStatus;
-    }
-
-    public void setProcessStatus(ProcessStatus processStatus) {
-        this.processStatus = processStatus;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
