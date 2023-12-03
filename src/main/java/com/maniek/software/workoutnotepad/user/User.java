@@ -3,6 +3,7 @@ package com.maniek.software.workoutnotepad.user;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.workout.Workout;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,6 +47,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BodyDimensions> listOfBodyDimensions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Workout> listOfWorkouts;
 
     public User(String username, String name, String email, String password, UserRole userRole) {
         this.username = username;
@@ -112,5 +116,14 @@ public class User implements UserDetails {
         listOfExercises.add(exercise);
 
         exercise.setUser(this);
+    }
+
+    public void addWorkout(Workout workout){
+        if(listOfWorkouts == null){
+            listOfWorkouts = new ArrayList<>();
+        }
+        listOfWorkouts.add(workout);
+
+        workout.setUser(this);
     }
 }

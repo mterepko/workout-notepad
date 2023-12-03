@@ -1,6 +1,7 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.workout.Workout;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -35,6 +36,16 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                     .getResultList();
 
             user.setListOfExercises(exercises);
+
+            // Fetch workouts separately
+            List<Workout> workouts = entityManager.createQuery(
+                            "SELECT w FROM Workout w WHERE w.user = :user "
+                                    + "ORDER BY w.creationDate DESC", Workout.class
+                    )
+                    .setParameter("user", user)
+                    .getResultList();
+
+            user.setListOfWorkouts(workouts);
 
             return Optional.of(user);
         } catch (NoResultException e) {

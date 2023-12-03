@@ -1,6 +1,7 @@
 package com.maniek.software.workoutnotepad.exercise;
 
 import com.maniek.software.workoutnotepad.user.User;
+import com.maniek.software.workoutnotepad.workout.Workout;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +38,15 @@ public class Exercise {
                           CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name="workout_exercise",
+            joinColumns = @JoinColumn(name="exercise_id"),
+            inverseJoinColumns = @JoinColumn(name="workout_id")
+    )
+    private List<Workout> workouts;
 
     private String description;
 

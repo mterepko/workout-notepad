@@ -4,7 +4,10 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseRepository;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
+import com.maniek.software.workoutnotepad.workout.Workout;
+import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +25,7 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG =
             "user with username %s not found";
     private final UserRepository userRepository;
+    private final ExerciseRepository exerciseRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -84,6 +89,23 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
     }
+
+    public void addWorkout(String name, WorkoutRequest workoutRequest){
+
+        //create workout, iterate add every exercise, then add to user and save
+        Workout workout = new Workout(workoutRequest.getName(), new Date());
+        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
+        workout.setExercises(exerciseList);
+        User user = userRepository.findByUsername(name).orElse(null);
+
+        if(user == null) return;
+
+        user.addWorkout(workout);
+
+        userRepository.save(user);
+    }
+
+
 
 
 

@@ -388,3 +388,9 @@ th {
     top: 0;
     background-color: white;
 }
+
+.workoutForm .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}

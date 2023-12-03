@@ -4,6 +4,7 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
+import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -87,7 +88,17 @@ public class UserController {
 
         model.addAttribute("exercises", tempUser.getListOfExercises());
         model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
+        model.addAttribute("workoutRequest", new WorkoutRequest());
         return "addWorkout";
+    }
+
+    @PostMapping("/add-workout")
+    public String addWorkout(@Valid WorkoutRequest workoutRequest, Model model, Principal principal){
+
+
+        userService.addWorkout(principal.getName(), workoutRequest);
+
+        return "redirect:/";
     }
 
 
