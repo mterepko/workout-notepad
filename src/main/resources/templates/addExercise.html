@@ -13,14 +13,14 @@
 
 </nav>
 
-<form class="exerciseForm" action="#" method="post" th:action="@{/add-exercise}" th:object="${ExerciseRequest}">
+<form class="exerciseForm" action="#" method="post" th:action="@{/add-exercise}" th:object="${exerciseRequest}">
+
   <div class="container">
     <div class="row">
 
       <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
         <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
       </div>
-
       <div class="div-input mb-3">
         <label for="inputName" class="form-label">Name of the exercise</label>
         <input type="text"  th:field="*{name}" class="form-control" id="inputName">
@@ -32,19 +32,19 @@
         </div>
         <div class="div-check">
           <div class="form-check">
-            <input class="form-check-input" name="hasReps" type="checkbox" th:value="true" id="checkReps" th:checked="${ExerciseRequest.hasReps}">
+            <input class="form-check-input" name="hasReps" type="checkbox" th:value="true" id="checkReps" th:checked="${exerciseRequest.hasReps}">
             <label  class="form-check-label" for="checkReps">reps</label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" name="hasSeries" type="checkbox" th:value="true" id="checkSeries" th:checked="${ExerciseRequest.hasSeries}">
+            <input class="form-check-input" name="hasSeries" type="checkbox" th:value="true" id="checkSeries" th:checked="${exerciseRequest.hasSeries}">
             <label class="form-check-label" for="checkSeries">series</label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" name="hasWeight" type="checkbox" id="checkWeight" th:value="true" th:checked="${ExerciseRequest.hasWeight}">
+            <input class="form-check-input" name="hasWeight" type="checkbox" id="checkWeight" th:value="true" th:checked="${exerciseRequest.hasWeight}">
             <label class="form-check-label" for="checkWeight">reps</label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" name="hasTime" type="checkbox" id="checkTime" th:value="true" th:checked="${ExerciseRequest.hasTime}">
+            <input class="form-check-input" name="hasTime" type="checkbox" id="checkTime" th:value="true" th:checked="${exerciseRequest.hasTime}">
             <label class="form-check-label" for="checkTime">time</label>
           </div>
         </div>
@@ -59,7 +59,7 @@
       </div>
 
 
-      <div class="" id="bodyDimensionsSubmit">
+      <div class="" id="exerciseSubmit">
         <br>
         <button type="submit" class="btn btn-light">Submit</button>
       </div>

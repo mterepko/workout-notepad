@@ -65,16 +65,20 @@ public class UserController {
     public String addExercise(Model model){
 
 
-        model.addAttribute("ExerciseRequest", new ExerciseRequest());
+        model.addAttribute("exerciseRequest", new ExerciseRequest());
 
         return "addExercise";
     }
 
     @PostMapping("/add-exercise")
-    public String addExercise(@Valid ExerciseRequest exerciseRequest, Model model, BindingResult bindingResult,
+    public String addExercise(@Valid ExerciseRequest exerciseRequest, BindingResult bindingResult,Model model,
                               Principal principal){
 
-
+        if(bindingResult.hasErrors()){
+            model.addAttribute("exerciseRequest", exerciseRequest);
+            System.out.println(bindingResult);
+            return "addExercise";
+        }
         userService.addExercise(principal.getName(), exerciseRequest);
 
 

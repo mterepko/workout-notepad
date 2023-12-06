@@ -222,6 +222,13 @@ th {
     padding-left: 80px;
 }
 
+.exerciseForm .alert {
+    width: 300px;
+    font-size: 12px;
+    text-align: center;
+    margin: 0 auto;
+}
+
 .exerciseForm .btn {
     width: 200px;
     border: 1px solid #333;
@@ -394,3 +401,4 @@ th {
     border: 1px solid #333;
     border-radius: 0;
 }
+

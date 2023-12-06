@@ -2,7 +2,6 @@ package com.maniek.software.workoutnotepad.registration;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
