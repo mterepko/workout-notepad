@@ -4,6 +4,7 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRepository;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.workout.Workout;
@@ -77,11 +78,27 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public void addExercise(String name, ExerciseRequest exerciseRequest){
+    public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
 
         User user = userRepository.findByUsername(name).orElse(null);
 
         if(user == null) return;
+
+        boolean exerciseExists = user.getListOfExercises().stream()
+                .anyMatch(existingExercise -> existingExercise.equals(new Exercise(
+                        exerciseRequest.getName(),
+                        exerciseRequest.isHasReps(),
+                        exerciseRequest.isHasWeight(),
+                        exerciseRequest.isHasSeries(),
+                        exerciseRequest.isHasTime(),
+                        exerciseRequest.getDescription(),
+                        new Date())));
+
+        if(exerciseExists) {
+            throw new ExerciseAlreadyExistsException("This user already have the same exercise");
+        }
+
+
 
         user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
                 exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),

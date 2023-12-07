@@ -2,6 +2,7 @@ package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
@@ -79,7 +80,15 @@ public class UserController {
             System.out.println(bindingResult);
             return "addExercise";
         }
-        userService.addExercise(principal.getName(), exerciseRequest);
+        try {
+            userService.addExercise(principal.getName(), exerciseRequest);
+
+        } catch (ExerciseAlreadyExistsException e) {
+            bindingResult.rejectValue("name", "exerciseRequest.name",
+                    "Exactly the same exercise already exists");
+            model.addAttribute("exerciseRequest", exerciseRequest);
+            return "addExercise";
+        }
 
 
         return "redirect:/";
