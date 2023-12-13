@@ -1,10 +1,11 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
-import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
+import com.maniek.software.workoutnotepad.workout.WorkoutAlreadyExistsException;
+import com.maniek.software.workoutnotepad.workout.WorkoutNameAlreadyExistsException;
 import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,9 +32,9 @@ public class UserController {
 
         User tempUser = userService.findUserByUsername(principal.getName());
 
-        model.addAttribute("user", tempUser);
+        model.addAttribute("user", userService.findUserByUsername(principal.getName()));
         model.addAttribute("bodyDimension", tempUser.getListOfBodyDimensions());
-        model.addAttribute("exercises", tempUser.getListOfExercises());
+        model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         return "index";
     }
 
@@ -77,7 +78,6 @@ public class UserController {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("exerciseRequest", exerciseRequest);
-            System.out.println(bindingResult);
             return "addExercise";
         }
         try {
@@ -85,7 +85,7 @@ public class UserController {
 
         } catch (ExerciseAlreadyExistsException e) {
             bindingResult.rejectValue("name", "exerciseRequest.name",
-                    "Exactly the same exercise already exists");
+                    e.getMessage());
             model.addAttribute("exerciseRequest", exerciseRequest);
             return "addExercise";
         }
@@ -97,19 +97,44 @@ public class UserController {
     @GetMapping("/add-workout")
     public String addWorkout(Model model, Principal principal){
 
-        User tempUser = userService.findUserByUsername(principal.getName());
 
-        model.addAttribute("exercises", tempUser.getListOfExercises());
+        model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
         model.addAttribute("workoutRequest", new WorkoutRequest());
         return "addWorkout";
     }
 
     @PostMapping("/add-workout")
-    public String addWorkout(@Valid WorkoutRequest workoutRequest, Model model, Principal principal){
+    public String addWorkout(@Valid WorkoutRequest workoutRequest,BindingResult bindingResult, Model model,
+                             Principal principal){
 
 
-        userService.addWorkout(principal.getName(), workoutRequest);
+        if(bindingResult.hasErrors()){
+            model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
+            model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
+            model.addAttribute("workoutRequest", workoutRequest);
+            System.out.println(bindingResult);
+            return "addWorkout";
+        }
+
+        try {
+            userService.addWorkout(principal.getName(), workoutRequest);
+        } catch (WorkoutAlreadyExistsException | WorkoutNameAlreadyExistsException e){
+            if(e instanceof WorkoutAlreadyExistsException){
+                bindingResult.rejectValue("name", "workoutRequest.name",
+                        ((WorkoutAlreadyExistsException) e).getMessage());
+            } else {
+                bindingResult.rejectValue("name", "workoutRequest.name",
+                        ((WorkoutNameAlreadyExistsException) e).getMessage());
+            }
+            model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
+            model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
+            model.addAttribute("workoutRequest", workoutRequest);
+            return "addWorkout";
+
+        }
+
+
 
         return "redirect:/";
     }

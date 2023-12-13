@@ -10,4 +10,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long>, Custo
   List<Exercise> findOtherUsersExercises(String username);
 
   List<Exercise> findAllByIdIn(List<Long> exerciseIds);
+
+  List<Exercise> findUsersExercises(String username);
 }

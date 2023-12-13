@@ -402,3 +402,10 @@ th {
     border-radius: 0;
 }
 
+.workoutForm .alert {
+    width: 300px;
+    font-size: 12px;
+    text-align: center;
+    margin: 0 auto;
+}
+

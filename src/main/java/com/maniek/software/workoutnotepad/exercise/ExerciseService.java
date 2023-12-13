@@ -16,5 +16,8 @@ public class ExerciseService {
         return exerciseRepository.findOtherUsersExercises(username);
     }
 
+    public List<Exercise> findUsersExercises(String username){
 
+        return exerciseRepository.findUsersExercises(username);
+    }
 }

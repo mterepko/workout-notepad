@@ -5,14 +5,12 @@ import com.maniek.software.workoutnotepad.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode
 @ToString
 public class Workout {
 
@@ -42,5 +40,33 @@ public class Workout {
     public Workout(String name, Date creationDate) {
         this.name = name;
         this.creationDate = creationDate;
+    }
+
+    public Workout(String name, Date creationDate, List<Exercise> exercises) {
+        this.name = name;
+        this.creationDate = creationDate;
+        this.exercises = exercises;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Workout workout = (Workout) o;
+
+        return areExerciseListsEqual(exercises, workout.exercises);
+    }
+
+    @Override
+    public int hashCode() {
+        return exercises != null ? exercises.hashCode() : 0;
+    }
+
+    private <T> boolean areExerciseListsEqual(List<T> list1, List<T> list2) {
+        Set<T> set1 = new HashSet<>(list1);
+        Set<T> set2 = new HashSet<>(list2);
+
+        return set1.equals(set2);
     }
 }

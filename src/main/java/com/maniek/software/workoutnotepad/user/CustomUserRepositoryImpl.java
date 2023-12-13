@@ -17,7 +17,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findUserByUsername(String username) {
 
         try {
             TypedQuery<User> query = entityManager.createQuery(
@@ -46,6 +46,39 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                     .getResultList();
 
             user.setListOfWorkouts(workouts);
+
+            return Optional.of(user);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findUserWithWorkoutsByUsername(String username) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u LEFT JOIN FETCH u.listOfWorkouts WHERE u.username = :data",
+                    User.class
+            );
+            query.setParameter("data", username);
+            User user = query.getSingleResult();
+
+            return Optional.of(user);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findUserWithExercisesByUsername(String username) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u LEFT JOIN FETCH u.listOfExercises WHERE u.username = :data",
+                    User.class
+            );
+            query.setParameter("data", username);
+            User user = query.getSingleResult();
+
 
             return Optional.of(user);
         } catch (NoResultException e) {

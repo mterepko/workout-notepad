@@ -8,6 +8,8 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsExceptio
 import com.maniek.software.workoutnotepad.exercise.ExerciseRepository;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.workout.Workout;
+import com.maniek.software.workoutnotepad.workout.WorkoutAlreadyExistsException;
+import com.maniek.software.workoutnotepad.workout.WorkoutNameAlreadyExistsException;
 import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,13 +33,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return userRepository.findUserByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
     public void singUpUser(User user) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
-        boolean usernameExists = userRepository.findByUsername(user.getUsername())
+        boolean usernameExists = userRepository.findUserByUsername(user.getUsername())
                 .isPresent();
 
         boolean emailExists = userRepository.findByEmail(user.getEmail()).isPresent();
@@ -57,7 +59,7 @@ public class UserService implements UserDetailsService {
 
     public User findUserByUsername(String username){
 
-        return userRepository.findByUsername(username).orElse(null);
+        return userRepository.findUserByUsername(username).orElse(null);
 
     }
 
@@ -80,7 +82,7 @@ public class UserService implements UserDetailsService {
 
     public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
 
-        User user = userRepository.findByUsername(name).orElse(null);
+        User user = userRepository.findUserWithExercisesByUsername(name).orElse(null);
 
         if(user == null) return;
 
@@ -107,17 +109,29 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void addWorkout(String name, WorkoutRequest workoutRequest){
+    public void addWorkout(String name, WorkoutRequest workoutRequest)
+            throws WorkoutAlreadyExistsException, WorkoutNameAlreadyExistsException {
 
-        //create workout, iterate add every exercise, then add to user and save
-        Workout workout = new Workout(workoutRequest.getName(), new Date());
-        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
-        workout.setExercises(exerciseList);
-        User user = userRepository.findByUsername(name).orElse(null);
+        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
 
         if(user == null) return;
 
-        user.addWorkout(workout);
+        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
+
+        boolean workoutExists = user.getListOfWorkouts().stream()
+                .anyMatch(existingWorkout -> existingWorkout.equals(
+                        new Workout(workoutRequest.getName(), new Date(), exerciseList)));
+
+
+        boolean workoutNameExists = user.getListOfWorkouts().stream()
+                .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));
+
+        if(workoutExists){
+            throw new WorkoutAlreadyExistsException("You already have a workout with those exercises");
+        } else if(workoutNameExists){
+            throw new WorkoutNameAlreadyExistsException("You already have the workout with this name");
+        }
+        user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
 
         userRepository.save(user);
     }
