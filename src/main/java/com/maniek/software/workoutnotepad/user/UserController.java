@@ -4,9 +4,7 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
-import com.maniek.software.workoutnotepad.workout.WorkoutAlreadyExistsException;
-import com.maniek.software.workoutnotepad.workout.WorkoutNameAlreadyExistsException;
-import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
+import com.maniek.software.workoutnotepad.workout.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.security.Principal;
@@ -25,6 +24,8 @@ public class UserController {
     private final UserService userService;
 
     private final ExerciseService exerciseService;
+    
+    private final WorkoutService workoutService;
 
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
@@ -134,9 +135,22 @@ public class UserController {
 
         }
 
-
-
         return "redirect:/";
+    }
+
+    @GetMapping("/list-workouts")
+    public String listWorkouts(Model model, Principal principal){
+
+
+        model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
+
+        return "listWorkouts";
+    }
+
+    @GetMapping("/add-workoutResult")
+    public String addWorkoutResult(@RequestParam(name = "workoutId", required = false) Long workoutId, Model model){
+
+        return "addWorkoutResult";
     }
 
 

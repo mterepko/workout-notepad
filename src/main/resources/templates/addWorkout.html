@@ -77,17 +77,17 @@
                     </thead>
                     <tbody>
                     <tr th:each="exercise : ${exercises}">
-                        <td th:text="${exercise.name}"></td>
-                        <td th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
-                        <td>
+                        <td class = "center-text" th:text="${exercise.name}"></td>
+                        <td class = "center-text" th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" >
                             <div class="hover-element"  th:title="${exercise.description}">
                                 &#128712;
                             </div>
                         </td>
-                        <td>
+                        <td class = "center-text">
                             <div th:if="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
                                 <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
                                        th:checked="${#lists.contains(workoutRequest.exerciseIds, exercise.id)}"
@@ -125,17 +125,17 @@
                     </thead>
                     <tbody>
                     <tr th:each="exercise : ${otherUsersExercises}">
-                        <td th:text="${exercise.name}"></td>
-                        <td th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
-                        <td th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
-                        <td>
+                        <td class = "center-text" th:text="${exercise.name}"></td>
+                        <td class = "center-text" th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text" th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
+                        <td class = "center-text">
                             <div class="hover-element"  th:title="${exercise.description}">
                                 &#128712;
                             </div>
                         </td>
-                        <td>
+                        <td class = "center-text">
                             <div th:if="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
                                 <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
                                        th:checked="${#lists.contains(workoutRequest.exerciseIds, exercise.id)}"
