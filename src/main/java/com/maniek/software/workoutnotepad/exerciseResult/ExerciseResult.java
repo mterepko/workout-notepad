@@ -1,10 +1,8 @@
-package com.maniek.software.workoutnotepad.model;
+package com.maniek.software.workoutnotepad.exerciseResult;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,17 +12,17 @@ import lombok.Setter;
 public class ExerciseResult {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int countOfReps;
+    private int repsCount;
 
     private double weight;
 
-    private int countOfSeries;
+    private int seriesCount;
 
     private int timeOfExerciseSeconds;
 
-    private int pauseBetweenSeriesSeconds;
 
     @ManyToOne
     private Exercise exercise;

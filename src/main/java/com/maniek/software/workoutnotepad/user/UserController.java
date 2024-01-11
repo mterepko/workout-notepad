@@ -5,6 +5,7 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsExceptio
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.workout.*;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -143,12 +144,17 @@ public class UserController {
 
 
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
+        model.addAttribute("otherUsersWorkouts", workoutService.findWorkoutsOfOtherUsers(principal.getName()));
 
         return "listWorkouts";
     }
 
     @GetMapping("/add-workoutResult")
     public String addWorkoutResult(@RequestParam(name = "workoutId", required = false) Long workoutId, Model model){
+
+
+        model.addAttribute("workout", workoutService.findWorkoutById(workoutId));
+        model.addAttribute("workoutResultRequest",new WorkoutResultRequest());
 
         return "addWorkoutResult";
     }

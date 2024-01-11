@@ -17,4 +17,14 @@ public class WorkoutService {
 
         return workoutRepository.findWorkoutsByUsername(username);
     }
+
+    public List<Workout> findWorkoutsOfOtherUsers(String username){
+
+        return workoutRepository.findWorkoutsOfOtherUsers(username);
+    }
+
+    public Workout findWorkoutById(Long workoutId){
+
+        return workoutRepository.findWorkoutById(workoutId).orElse(null);
+    }
 }

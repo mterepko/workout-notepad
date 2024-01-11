@@ -441,3 +441,42 @@ th {
     text-align: center;
     vertical-align: middle;
 }
+
+
+.fillWorkoutResult #inputName{
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+.fillWorkoutResult {
+    margin-top: 1vh;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+}
+
+
+.fillWorkoutResult h2 {
+    font-size: 24px;
+}
+
+.fillWorkoutResult input[type="number"] {
+    width: 100px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+    text-align: center;
+    padding-left: 25px;
+}
+
+.fillWorkoutResult .btn {
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.fillWorkoutResult .container{
+    margin-top: 50px;
+}

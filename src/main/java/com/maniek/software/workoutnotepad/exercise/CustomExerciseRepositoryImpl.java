@@ -31,10 +31,10 @@ public class CustomExerciseRepositoryImpl implements CustomExerciseRepository {
     public List<Exercise> findUsersExercises(String username) {
         try {
             List<Exercise> exercises = entityManager.createQuery(
-                            "SELECT e FROM Exercise e JOIN e.user u WHERE u.username = :username "
+                            "SELECT e FROM Exercise e JOIN e.user u WHERE u.username = :data "
                                 + "ORDER BY e.creationDate DESC", Exercise.class
                     )
-                    .setParameter("username", username)
+                    .setParameter("data", username)
                     .getResultList();
 
             return exercises;
