@@ -4,11 +4,13 @@ import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class ExerciseResult {
 
     @Id
@@ -21,7 +23,7 @@ public class ExerciseResult {
 
     private int seriesCount;
 
-    private int timeOfExerciseSeconds;
+    private int time;
 
 
     @ManyToOne
@@ -29,4 +31,7 @@ public class ExerciseResult {
 
     @ManyToOne
     private WorkoutResult workoutResult;
+
+
+
 }
