@@ -11,6 +11,7 @@ import com.maniek.software.workoutnotepad.workout.Workout;
 import com.maniek.software.workoutnotepad.workout.WorkoutAlreadyExistsException;
 import com.maniek.software.workoutnotepad.workout.WorkoutNameAlreadyExistsException;
 import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -134,6 +135,13 @@ public class UserService implements UserDetailsService {
         user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
 
         userRepository.save(user);
+    }
+
+    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest){
+        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
+
+
+        if(user == null) return;
     }
 
 
