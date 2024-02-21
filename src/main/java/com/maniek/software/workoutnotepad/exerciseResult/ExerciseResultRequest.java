@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class ExerciseResultRequest {
 
-    private String name;
 
     private Long exerciseId;
 

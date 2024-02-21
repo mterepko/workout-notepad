@@ -7,10 +7,10 @@ import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRepository;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
-import com.maniek.software.workoutnotepad.workout.Workout;
-import com.maniek.software.workoutnotepad.workout.WorkoutAlreadyExistsException;
-import com.maniek.software.workoutnotepad.workout.WorkoutNameAlreadyExistsException;
-import com.maniek.software.workoutnotepad.workout.WorkoutRequest;
+import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
+import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
+import com.maniek.software.workoutnotepad.workout.*;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
             "user with username %s not found";
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
+    private final WorkoutRepository workoutRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -140,8 +141,27 @@ public class UserService implements UserDetailsService {
     public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest){
         User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
 
-
         if(user == null) return;
+
+        Workout workout = workoutRepository.findWorkoutById(workoutResultRequest.getWorkoutId()).orElse(null);
+
+        WorkoutResult workoutResult = new WorkoutResult(workoutResultRequest.getName(),workout, new Date());
+
+        for(ExerciseResultRequest exerciseResultRequest : workoutResultRequest.getExerciseResults()){
+
+            Exercise exercise = exerciseRepository.findById(exerciseResultRequest.getExerciseId()).orElse(null);
+            workoutResult.addExerciseResult(new ExerciseResult(
+                    exerciseResultRequest.getRepsCount(),
+                    exerciseResultRequest.getWeight(),
+                    exerciseResultRequest.getSeriesCount(),
+                    exerciseResultRequest.getTimeOfExerciseSeconds(),
+                    exercise
+            ));
+
+        }
+        user.addWorkoutResult(workoutResult);
+        userRepository.save(user);
+
     }
 
 

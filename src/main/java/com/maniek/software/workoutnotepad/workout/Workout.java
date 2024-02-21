@@ -2,6 +2,7 @@ package com.maniek.software.workoutnotepad.workout;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.user.User;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,9 @@ public class Workout {
             CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<WorkoutResult> workoutResults;
 
     public Workout(String name, Date creationDate) {
         this.name = name;

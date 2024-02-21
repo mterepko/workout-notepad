@@ -4,6 +4,7 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.workout.Workout;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,6 +52,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Workout> listOfWorkouts;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<WorkoutResult> listOfWorkoutResults;
+
     public User(String username, String name, String email, String password, UserRole userRole) {
         this.username = username;
         this.password = password;
@@ -58,7 +62,6 @@ public class User implements UserDetails {
         this.email = email;
         this.isPrivate = true;
         this.userRole = userRole;
-        //this.exerciseList = null;
     }
 
 
@@ -89,15 +92,6 @@ public class User implements UserDetails {
         return true;
     }
 
-//    public void addExercise(Exercise tempExercise){
-//        if (exerciseList == null) {
-//            exerciseList = new ArrayList<>();
-//        }
-//
-//        exerciseList.add(tempExercise);
-//
-//        tempExercise.setUser(this);
-//    }
 
     // support class to associate body dimension with user
     public void addBodyDimensions(BodyDimensions bodyDimensions){
@@ -125,5 +119,15 @@ public class User implements UserDetails {
         listOfWorkouts.add(workout);
 
         workout.setUser(this);
+    }
+
+    public void addWorkoutResult(WorkoutResult workoutResult){
+        if(listOfWorkoutResults == null){
+            listOfWorkoutResults = new ArrayList<>();
+
+        }
+        listOfWorkoutResults.add(workoutResult);
+
+        workoutResult.setUser(this);
     }
 }

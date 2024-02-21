@@ -1,5 +1,6 @@
 package com.maniek.software.workoutnotepad.exercise;
 
+import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.user.User;
 import com.maniek.software.workoutnotepad.workout.Workout;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class Exercise {
             inverseJoinColumns = @JoinColumn(name="workout_id")
     )
     private List<Workout> workouts;
+
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ExerciseResult> exerciseResults;
 
     private String description;
 

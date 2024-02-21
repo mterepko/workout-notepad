@@ -25,11 +25,13 @@
             <input type="text" th:field="*{name}"  class="form-control" id="inputName">
             <br>
             <h3>Fill exercises data :)</h3>
+            <input type="hidden" name="workoutId"  th:value="${param.workoutId}" />
         </div>
         <div class="row">
             <div th:each="exercise, status : ${workout.exercises}"
                  th:class="${#lists.size(workout.exercises) > 1} ? 'col-md-6' : ''">
                 <h2 th:text="${'Exercise ' + (status.index + 1) + ': ' + exercise.name}"></h2>
+
                 <div th:if="${exercise.hasSeries}">
                     <label th:text="${'series'}"></label>
                     <input type="number" th:field="*{exerciseResults[__${status.index}__].seriesCount}" min="0"
@@ -50,6 +52,7 @@
                     <input type="number" th:field="*{exerciseResults[__${status.index}__].timeOfExerciseSeconds}" min="0"
                            class="form-control"/>
                 </div>
+                <input type="hidden" th:value="${exercise.id}" th:name="${'exerciseResults[__${status.index}__].exerciseId'}"/>
                 <br>
             </div>
         </div>

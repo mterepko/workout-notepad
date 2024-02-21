@@ -12,5 +12,7 @@ public class WorkoutResultRequest {
 
     private String name;
 
+    private  Long workoutId;
+
     private List<ExerciseResultRequest> exerciseResults;
 }
