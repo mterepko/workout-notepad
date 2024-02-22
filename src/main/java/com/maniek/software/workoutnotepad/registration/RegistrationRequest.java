@@ -6,20 +6,18 @@ import lombok.*;
 
 @Getter
 @Setter
-public class RegistrationRequest{
+public class RegistrationRequest {
 
-    @NotEmpty(message="Username cannot be empty")
-    private  String username;
+    @NotEmpty(message = "Username cannot be empty")
+    private String username;
 
-    @NotEmpty(message="First name cannot be empty")
-    private  String firstName;
+    @NotEmpty(message = "First name cannot be empty")
+    private String firstName;
 
-    @NotEmpty(message="Email cannot be empty")
+    @NotEmpty(message = "Email cannot be empty")
     @Email
-    private  String email;
+    private String email;
 
     @NotEmpty(message = "Password cannot be empty")
     private String password;
-
-
 }

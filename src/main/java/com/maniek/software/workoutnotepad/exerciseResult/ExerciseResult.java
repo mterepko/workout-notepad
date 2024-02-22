@@ -25,13 +25,9 @@ public class ExerciseResult {
 
     private int time;
 
-
     @ManyToOne
     private Exercise exercise;
 
     @ManyToOne
     private WorkoutResult workoutResult;
-
-
-
 }

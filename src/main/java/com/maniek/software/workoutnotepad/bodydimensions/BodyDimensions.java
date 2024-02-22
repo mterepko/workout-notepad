@@ -43,11 +43,11 @@ public class BodyDimensions {
     private Date creationDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                          CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+            CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public BodyDimensions( double weight, double height, double neckSize,
+    public BodyDimensions(double weight, double height, double neckSize,
                           double bicepsSize, double chestSize, double forearmSize, double waistSize,
                           double hipsSize, double thighSize, double calfSize, Date creationDate) {
 
@@ -63,5 +63,4 @@ public class BodyDimensions {
         this.calfSize = calfSize;
         this.creationDate = creationDate;
     }
-
 }

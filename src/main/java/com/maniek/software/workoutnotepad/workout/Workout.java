@@ -14,7 +14,6 @@ import java.util.*;
 @ToString
 public class Workout {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +25,9 @@ public class Workout {
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
-            name="workout_exercise",
-            joinColumns = @JoinColumn(name="workout_id"),
-            inverseJoinColumns = @JoinColumn(name="exercise_id")
+            name = "workout_exercise",
+            joinColumns = @JoinColumn(name = "workout_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
     private List<Exercise> exercises;
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import java.security.Principal;
 
 @Controller
@@ -25,7 +24,7 @@ public class UserController {
     private final UserService userService;
 
     private final ExerciseService exerciseService;
-    
+
     private final WorkoutService workoutService;
 
     @GetMapping("/")
@@ -41,8 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/add-measurements")
-    public String addBodyDimensions(Model model){
-
+    public String addBodyDimensions(Model model) {
 
 
         model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
@@ -52,9 +50,9 @@ public class UserController {
 
     @PostMapping("add-measurements")
     public String addBodyDimensions(@Valid BodyDimensionsRequest bodyDimensionsRequest, Model model,
-                                    BindingResult bindingResult, Principal principal){
+                                    BindingResult bindingResult, Principal principal) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("bodyDimensionsRequest", bodyDimensionsRequest);
             return "addBodyDimensions";
         }
@@ -66,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/add-exercise")
-    public String addExercise(Model model){
+    public String addExercise(Model model) {
 
 
         model.addAttribute("exerciseRequest", new ExerciseRequest());
@@ -75,10 +73,10 @@ public class UserController {
     }
 
     @PostMapping("/add-exercise")
-    public String addExercise(@Valid ExerciseRequest exerciseRequest, BindingResult bindingResult,Model model,
-                              Principal principal){
+    public String addExercise(@Valid ExerciseRequest exerciseRequest, BindingResult bindingResult, Model model,
+                              Principal principal) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("exerciseRequest", exerciseRequest);
             return "addExercise";
         }
@@ -97,7 +95,7 @@ public class UserController {
     }
 
     @GetMapping("/add-workout")
-    public String addWorkout(Model model, Principal principal){
+    public String addWorkout(Model model, Principal principal) {
 
 
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
@@ -107,11 +105,10 @@ public class UserController {
     }
 
     @PostMapping("/add-workout")
-    public String addWorkout(@Valid WorkoutRequest workoutRequest,BindingResult bindingResult, Model model,
-                             Principal principal){
+    public String addWorkout(@Valid WorkoutRequest workoutRequest, BindingResult bindingResult, Model model,
+                             Principal principal) {
 
-
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
             model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
             model.addAttribute("workoutRequest", workoutRequest);
@@ -121,8 +118,8 @@ public class UserController {
 
         try {
             userService.addWorkout(principal.getName(), workoutRequest);
-        } catch (WorkoutAlreadyExistsException | WorkoutNameAlreadyExistsException e){
-            if(e instanceof WorkoutAlreadyExistsException){
+        } catch (WorkoutAlreadyExistsException | WorkoutNameAlreadyExistsException e) {
+            if (e instanceof WorkoutAlreadyExistsException) {
                 bindingResult.rejectValue("name", "workoutRequest.name",
                         ((WorkoutAlreadyExistsException) e).getMessage());
             } else {
@@ -140,8 +137,7 @@ public class UserController {
     }
 
     @GetMapping("/list-workouts")
-    public String listWorkouts(Model model, Principal principal){
-
+    public String listWorkouts(Model model, Principal principal) {
 
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
         model.addAttribute("otherUsersWorkouts", workoutService.findWorkoutsOfOtherUsers(principal.getName()));
@@ -150,16 +146,11 @@ public class UserController {
     }
 
     @GetMapping("/add-workoutResult")
-    public String addWorkoutResult(@RequestParam(name = "workoutId", required = false) Long workoutId, Model model){
-
+    public String addWorkoutResult(@RequestParam(name = "workoutId", required = false) Long workoutId, Model model) {
 
         model.addAttribute("workout", workoutService.findWorkoutById(workoutId));
-        model.addAttribute("workoutResultRequest",new WorkoutResultRequest());
+        model.addAttribute("workoutResultRequest", new WorkoutResultRequest());
 
         return "addWorkoutResult";
     }
-
-
-
-
 }

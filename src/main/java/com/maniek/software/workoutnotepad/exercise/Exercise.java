@@ -35,16 +35,16 @@ public class Exercise {
     private Date creationDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-                          CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+            CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
-            name="workout_exercise",
-            joinColumns = @JoinColumn(name="exercise_id"),
-            inverseJoinColumns = @JoinColumn(name="workout_id")
+            name = "workout_exercise",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "workout_id")
     )
     private List<Workout> workouts;
 

@@ -11,12 +11,12 @@ public class ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
 
-    public List<Exercise> findOtherUsersExercises(String username){
+    public List<Exercise> findOtherUsersExercises(String username) {
 
         return exerciseRepository.findOtherUsersExercises(username);
     }
 
-    public List<Exercise> findUsersExercises(String username){
+    public List<Exercise> findUsersExercises(String username) {
 
         return exerciseRepository.findUsersExercises(username);
     }

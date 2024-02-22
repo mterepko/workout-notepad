@@ -16,7 +16,7 @@ public class CustomExerciseRepositoryImpl implements CustomExerciseRepository {
     public Optional<Exercise> findUsersExercise(String username, String exerciseName) {
         try {
             Exercise exercise = entityManager.createQuery("SELECT e FROM Exercise e JOIN e.user u "
-                    + "WHERE u.username = :username AND e.name = :exerciseName", Exercise.class)
+                            + "WHERE u.username = :username AND e.name = :exerciseName", Exercise.class)
                     .setParameter("username", username)
                     .setParameter("exerciseName", exerciseName)
                     .getSingleResult();
@@ -32,7 +32,7 @@ public class CustomExerciseRepositoryImpl implements CustomExerciseRepository {
         try {
             List<Exercise> exercises = entityManager.createQuery(
                             "SELECT e FROM Exercise e JOIN e.user u WHERE u.username = :data "
-                                + "ORDER BY e.creationDate DESC", Exercise.class
+                                    + "ORDER BY e.creationDate DESC", Exercise.class
                     )
                     .setParameter("data", username)
                     .getResultList();
@@ -49,7 +49,7 @@ public class CustomExerciseRepositoryImpl implements CustomExerciseRepository {
 
             List<Exercise> exercises = entityManager.createQuery(
                             "SELECT e FROM Exercise e JOIN e.user u WHERE u.username <> :username "
-                                + "ORDER BY e.creationDate DESC", Exercise.class
+                                    + "ORDER BY e.creationDate DESC", Exercise.class
                     )
                     .setParameter("username", username)
                     .getResultList();

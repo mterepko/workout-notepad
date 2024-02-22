@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 @Controller
 @AllArgsConstructor
 public class RegistrationController {
@@ -17,9 +16,9 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping("/register")
-    public String register(@Valid RegistrationRequest request, BindingResult bindingResult, Model model){
+    public String register(@Valid RegistrationRequest request, BindingResult bindingResult, Model model) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("registrationRequest", request);
             System.out.println(bindingResult);
             return "signUpForm";
@@ -27,7 +26,7 @@ public class RegistrationController {
         try {
             registrationService.register(request);
         } catch (UsernameAlreadyExistsException | EmailAlreadyExistsException e) {
-            if(e instanceof UsernameAlreadyExistsException){
+            if (e instanceof UsernameAlreadyExistsException) {
                 bindingResult.rejectValue("username", "registrationRequest.username",
                         "An account already exists for this username");
             } else {
@@ -43,22 +42,21 @@ public class RegistrationController {
     }
 
 
-
     @GetMapping("/register")
-    public String register(final Model model){
+    public String register(final Model model) {
         model.addAttribute("registrationRequest", new RegistrationRequest());
 
         return "signUpForm";
     }
 
     @GetMapping("/login")
-    public String showLoginPage(){
+    public String showLoginPage() {
 
         return "login";
     }
 
     @GetMapping("/register/success")
-    public String registerSuccess(){
+    public String registerSuccess() {
 
         return "successfulRegistration";
     }

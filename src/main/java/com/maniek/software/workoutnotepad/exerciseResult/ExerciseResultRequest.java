@@ -18,6 +18,4 @@ public class ExerciseResultRequest {
     private int seriesCount;
 
     private int timeOfExerciseSeconds;
-
-
 }

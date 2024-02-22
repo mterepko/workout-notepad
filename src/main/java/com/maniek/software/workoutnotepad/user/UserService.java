@@ -45,9 +45,9 @@ public class UserService implements UserDetailsService {
 
         boolean emailExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
-        if(usernameExists){
+        if (usernameExists) {
             throw new UsernameAlreadyExistsException("email or username already taken");
-        } else if(emailExists){
+        } else if (emailExists) {
             throw new EmailAlreadyExistsException("User with provided email already exists");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -58,17 +58,17 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public User findUserByUsername(String username){
+    public User findUserByUsername(String username) {
 
         return userRepository.findUserByUsername(username).orElse(null);
 
     }
 
-    public void addBodyDimensions(String name, BodyDimensionsRequest bodyDimensionsRequest){
+    public void addBodyDimensions(String name, BodyDimensionsRequest bodyDimensionsRequest) {
 
         User user = userRepository.findByUsername(name).orElse(null);
 
-        if(user == null) return;
+        if (user == null) return;
 
         user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
                 bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
@@ -78,14 +78,13 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-
     }
 
     public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
 
         User user = userRepository.findUserWithExercisesByUsername(name).orElse(null);
 
-        if(user == null) return;
+        if (user == null) return;
 
         boolean exerciseExists = user.getListOfExercises().stream()
                 .anyMatch(existingExercise -> existingExercise.equals(new Exercise(
@@ -97,11 +96,9 @@ public class UserService implements UserDetailsService {
                         exerciseRequest.getDescription(),
                         new Date())));
 
-        if(exerciseExists) {
+        if (exerciseExists) {
             throw new ExerciseAlreadyExistsException("This user already have the same exercise");
         }
-
-
 
         user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
                 exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),
@@ -115,7 +112,7 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
 
-        if(user == null) return;
+        if (user == null) return;
 
         List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
 
@@ -127,9 +124,9 @@ public class UserService implements UserDetailsService {
         boolean workoutNameExists = user.getListOfWorkouts().stream()
                 .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));
 
-        if(workoutExists){
+        if (workoutExists) {
             throw new WorkoutAlreadyExistsException("You already have a workout with those exercises");
-        } else if(workoutNameExists){
+        } else if (workoutNameExists) {
             throw new WorkoutNameAlreadyExistsException("You already have the workout with this name");
         }
         user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
@@ -137,19 +134,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest){
+    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest) {
         User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
 
 
-        if(user == null) return;
+        if (user == null) return;
     }
-
-
-
-
-
-
-
-
-
 }

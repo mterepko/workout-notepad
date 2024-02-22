@@ -15,7 +15,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
     private final EntityManager entityManager;
 
-
     @Override
     public Optional<User> findUserByUsername(String username) {
 
@@ -30,7 +29,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             // Fetch exercises separately
             List<Exercise> exercises = entityManager.createQuery(
                             "SELECT e FROM Exercise e WHERE e.user = :user "
-                            + "ORDER BY e.creationDate DESC", Exercise.class
+                                    + "ORDER BY e.creationDate DESC", Exercise.class
                     )
                     .setParameter("user", user)
                     .getResultList();
@@ -85,6 +84,4 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             return Optional.empty();
         }
     }
-
-
 }
