@@ -1,13 +1,11 @@
 package com.maniek.software.workoutnotepad.bodydimensions;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class BodyDimensionsRequest {
-
 
     private String gender;
 
@@ -30,5 +28,4 @@ public class BodyDimensionsRequest {
     private double thighSize;
 
     private double calfSize;
-
 }

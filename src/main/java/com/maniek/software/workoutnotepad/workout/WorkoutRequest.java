@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class WorkoutRequest {
 
-    @NotEmpty(message="Name of workout cannot be empty")
+    @NotEmpty(message = "Name of workout cannot be empty")
     private String name;
 
     private List<Long> exerciseIds;

@@ -1,7 +1,6 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
-
 import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.workout.Workout;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 
 @Getter
 @Setter
@@ -64,7 +62,6 @@ public class User implements UserDetails {
         this.userRole = userRole;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
@@ -94,8 +91,8 @@ public class User implements UserDetails {
 
 
     // support class to associate body dimension with user
-    public void addBodyDimensions(BodyDimensions bodyDimensions){
-        if(listOfBodyDimensions == null){
+    public void addBodyDimensions(BodyDimensions bodyDimensions) {
+        if (listOfBodyDimensions == null) {
             listOfBodyDimensions = new ArrayList<>();
         }
         listOfBodyDimensions.add(bodyDimensions);
@@ -103,8 +100,8 @@ public class User implements UserDetails {
         bodyDimensions.setUser(this);
     }
 
-    public void addExercise(Exercise exercise){
-        if(listOfExercises == null){
+    public void addExercise(Exercise exercise) {
+        if (listOfExercises == null) {
             listOfExercises = new ArrayList<>();
         }
         listOfExercises.add(exercise);
@@ -112,8 +109,8 @@ public class User implements UserDetails {
         exercise.setUser(this);
     }
 
-    public void addWorkout(Workout workout){
-        if(listOfWorkouts == null){
+    public void addWorkout(Workout workout) {
+        if (listOfWorkouts == null) {
             listOfWorkouts = new ArrayList<>();
         }
         listOfWorkouts.add(workout);

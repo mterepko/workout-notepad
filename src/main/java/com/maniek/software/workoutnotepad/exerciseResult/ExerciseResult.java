@@ -26,22 +26,12 @@ public class ExerciseResult {
     private int time;
 
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name="exercise_id")
+    @ManyToOne
     private Exercise exercise;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name="workout_result_id")
+    @ManyToOne
     private WorkoutResult workoutResult;
 
 
-    public ExerciseResult(int repsCount, double weight, int seriesCount, int time, Exercise exercise) {
-        this.repsCount = repsCount;
-        this.weight = weight;
-        this.seriesCount = seriesCount;
-        this.time = time;
-        this.exercise = exercise;
-    }
+
 }

@@ -159,16 +159,6 @@ public class UserController {
         return "addWorkoutResult";
     }
 
-    @PostMapping("/add-workoutResult")
-    public String addWorkoutResult(@Valid WorkoutResultRequest workoutResultRequest, BindingResult bindingResult,
-                                   Model model, Principal principal){
-
-        userService.addWorkoutResult(principal.getName(), workoutResultRequest);
-
-
-        return "redirect:/";
-    }
-
 
 
 

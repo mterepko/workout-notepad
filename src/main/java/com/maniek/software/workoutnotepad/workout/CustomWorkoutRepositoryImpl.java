@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class CustomWorkoutRepositoryImpl implements CustomWorkoutRepository{
+public class CustomWorkoutRepositoryImpl implements CustomWorkoutRepository {
 
     private final EntityManager entityManager;
 
