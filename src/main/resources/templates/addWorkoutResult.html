@@ -23,6 +23,8 @@
         <div class="div-input mb-3">
             <label for="inputName" class="form-label">Name of the workout</label>
             <input type="text" th:field="*{name}"  class="form-control" id="inputName">
+            <label for="inputWorkoutDate" class="form-label">Date of the workout</label>
+            <input type="date" th:field="*{workoutDate}"  class="form-control" id="inputWorkoutDate">
             <br>
             <h3>Fill exercises data :)</h3>
             <input type="hidden" name="workoutId"  th:value="${param.workoutId}" />

@@ -31,7 +31,6 @@ public class UserController {
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
 
-
         User tempUser = userService.findUserByUsername(principal.getName());
 
         model.addAttribute("user", userService.findUserByUsername(principal.getName()));
@@ -42,8 +41,6 @@ public class UserController {
 
     @GetMapping("/add-measurements")
     public String addBodyDimensions(Model model){
-
-
 
         model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
 
@@ -59,7 +56,6 @@ public class UserController {
             return "addBodyDimensions";
         }
 
-
         userService.addBodyDimensions(principal.getName(), bodyDimensionsRequest);
 
         return "redirect:/";
@@ -67,7 +63,6 @@ public class UserController {
 
     @GetMapping("/add-exercise")
     public String addExercise(Model model){
-
 
         model.addAttribute("exerciseRequest", new ExerciseRequest());
 
@@ -92,13 +87,11 @@ public class UserController {
             return "addExercise";
         }
 
-
         return "redirect:/";
     }
 
     @GetMapping("/add-workout")
     public String addWorkout(Model model, Principal principal){
-
 
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
@@ -109,7 +102,6 @@ public class UserController {
     @PostMapping("/add-workout")
     public String addWorkout(@Valid WorkoutRequest workoutRequest,BindingResult bindingResult, Model model,
                              Principal principal){
-
 
         if(bindingResult.hasErrors()){
             model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
@@ -142,7 +134,6 @@ public class UserController {
     @GetMapping("/list-workouts")
     public String listWorkouts(Model model, Principal principal){
 
-
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
         model.addAttribute("otherUsersWorkouts", workoutService.findWorkoutsOfOtherUsers(principal.getName()));
 
@@ -152,11 +143,21 @@ public class UserController {
     @GetMapping("/add-workoutResult")
     public String addWorkoutResult(@RequestParam(name = "workoutId", required = false) Long workoutId, Model model){
 
-
         model.addAttribute("workout", workoutService.findWorkoutById(workoutId));
         model.addAttribute("workoutResultRequest",new WorkoutResultRequest());
 
         return "addWorkoutResult";
+    }
+
+
+    @PostMapping("/add-workoutResult")
+    public String addWorkoutResult(@Valid WorkoutResultRequest workoutResultRequest, BindingResult bindingResult,
+                                   Principal principal){
+
+        userService.addWorkoutResult(principal.getName(), workoutResultRequest);
+
+
+        return "redirect:/";
     }
 
 

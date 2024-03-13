@@ -49,7 +49,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             // fetch workout results
             List<WorkoutResult> workoutResults = entityManager.createQuery(
                             "SELECT w FROM WorkoutResult w WHERE w.user = :user "
-                                    + "ORDER BY w.creationDate DESC", WorkoutResult.class
+                                    + "ORDER BY w.workoutDate DESC", WorkoutResult.class
                     )
                     .setParameter("user", user)
                     .getResultList();

@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService {
 
         Workout workout = workoutRepository.findWorkoutById(workoutResultRequest.getWorkoutId()).orElse(null);
 
-        WorkoutResult workoutResult = new WorkoutResult(workoutResultRequest.getName(),workout, new Date());
+        WorkoutResult workoutResult = new WorkoutResult(workoutResultRequest.getName(),workout, workoutResultRequest.getWorkoutDate());
 
         for(ExerciseResultRequest exerciseResultRequest : workoutResultRequest.getExerciseResults()){
 

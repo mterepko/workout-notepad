@@ -443,7 +443,7 @@ th {
 }
 
 
-.fillWorkoutResult #inputName{
+.fillWorkoutResult #inputName, #inputWorkoutDate{
     width: 300px;
     margin: 0 auto;
     border-radius: 0;

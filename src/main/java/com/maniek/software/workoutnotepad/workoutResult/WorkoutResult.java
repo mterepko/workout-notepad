@@ -24,7 +24,7 @@ public class WorkoutResult {
 
     private String name;
 
-    private Date creationDate;
+    private Date workoutDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
@@ -39,10 +39,10 @@ public class WorkoutResult {
     @OneToMany(mappedBy = "workoutResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<ExerciseResult> listOfExerciseResults;
 
-    public WorkoutResult(String name, Workout workout, Date creationDate){
+    public WorkoutResult(String name, Workout workout, Date workoutDate){
         this.name = name;
         this.workout = workout;
-        this.creationDate = creationDate;
+        this.workoutDate = workoutDate;
     }
     public WorkoutResult(String name, List<ExerciseResult> listOfExerciseResults) {
         this.name = name;

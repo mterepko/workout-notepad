@@ -33,5 +33,11 @@ public class ExerciseResult {
     private WorkoutResult workoutResult;
 
 
-
+    public ExerciseResult(int repsCount, double weight, int seriesCount, int time, Exercise exercise) {
+        this.repsCount = repsCount;
+        this.weight = weight;
+        this.seriesCount = seriesCount;
+        this.time = time;
+        this.exercise = exercise;
+    }
 }
