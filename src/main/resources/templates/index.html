@@ -113,31 +113,31 @@
             <div class="short-div">
                 <div id="workoutSlides" class="carousel carousel-dark slide">
                     <div class="carousel-inner">
-                        <div th:if="${not #lists.isEmpty(exercises)}">
-                            <div th:each="exercise, status: ${exercises}" class="carousel-item"
+                        <div th:if="${not #lists.isEmpty(workouts)}">
+                            <div th:each="workout, status: ${workouts}" class="carousel-item"
                                  th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
                                 <div class="div-carousel">
-                                    <h1 th:text="'Exercise ' + ${exercise.name}">name</h1>
+                                    <h1 th:text="'Workout ' + ${workout.name}">name</h1>
                                 </div>
                             </div>
                             <div class="carousel-item">
                                 <div class="">
-                                    <h1>No more exercises to display</h1>
+                                    <h1>No more workouts to display</h1>
                                     <a href="/add-workout" class="btn btn-light" id = "addNewWorkout">Add new workout</a>
                                 </div>
                             </div>
                         </div>
-                        <div th:unless="${not #lists.isEmpty(exercises)}">
+                        <div th:unless="${not #lists.isEmpty(workouts)}">
                             <div class="carousel-item active" data-bs-interval="10000">
                                 <div class="div-carousel">
-                                    <h1>No exercises to display</h1>
+                                    <h1>No more workouts to display</h1>
                                     <a href="/add-workout" class="btn btn-light" id = "addNewWorkoutSecond">Add new workout</a>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <div th:if="${not #lists.isEmpty(exercises)}">
+                    <div th:if="${not #lists.isEmpty(workouts)}">
                         <button class="carousel-control-prev" type="button" data-bs-target="#workoutSlides" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>

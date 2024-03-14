@@ -5,7 +5,9 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsExceptio
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.workout.*;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRepository;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,8 @@ public class UserController {
     
     private final WorkoutService workoutService;
 
+    private final WorkoutResultService workoutResultService;
+
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
 
@@ -36,6 +40,7 @@ public class UserController {
         model.addAttribute("user", userService.findUserByUsername(principal.getName()));
         model.addAttribute("bodyDimension", tempUser.getListOfBodyDimensions());
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
+        model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
         return "index";
     }
 
@@ -160,7 +165,13 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/list-workout-results")
+    public String listWorkoutResults(Model model, Principal principal){
 
+        model.addAttribute("workoutResults", workoutResultService.workoutResultsByUsername(principal.getName()));
+
+        return "listWorkoutResults";
+    }
 
 
 }

@@ -19,18 +19,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Measurements</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/list-workouts">Workout</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Workout
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/add-workout">add a workout</a></li>
+                        <li><a class="dropdown-item" href="/list-workouts">list of workouts</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/list-workout-results">list of completed workouts</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Exercise
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">add exercise</a></li>
+                        <li><a class="dropdown-item" href="#">list of exercises</a></li>
                     </ul>
                 </li>
             </ul>
