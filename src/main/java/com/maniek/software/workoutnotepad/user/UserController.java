@@ -13,9 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.security.Principal;
@@ -52,7 +50,7 @@ public class UserController {
         return "addBodyDimensions";
     }
 
-    @PostMapping("add-measurements")
+    @PostMapping("/add-measurements")
     public String addBodyDimensions(@Valid BodyDimensionsRequest bodyDimensionsRequest, Model model,
                                     BindingResult bindingResult, Principal principal){
 
@@ -164,6 +162,14 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @DeleteMapping("/delete-workoutResult/{id}")
+    public String deleteWorkoutResult(@PathVariable("id") Long id, Principal principal){
+
+
+        return "listWorkoutResults";
+    }
+
 
     @GetMapping("/list-workout-results")
     public String listWorkoutResults(Model model, Principal principal){

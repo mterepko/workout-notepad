@@ -15,18 +15,18 @@
 
 </nav>
 
-<form class="listWorkoutsForm" action="#" method="get" th:action="@{/add-workoutResult}" >
+<div class="listWorkoutResultsForm" >
     <div class="container">
         <div class="carousel-div">
-            <input type="hidden" id="workoutId" name="workoutId" value=""/>
-            <h1>Choose your workout! :)</h1>
+            <input type="hidden" id="workoutResultId" name="workoutResultId" value=""/>
+            <h1 th:if="${not #lists.isEmpty(workoutResults)}">Your already done workouts. GOOD JOB! :)</h1>
             <div id="slides" class="carousel carousel-dark slide">
                 <div class="carousel-inner">
                     <div th:if="${not #lists.isEmpty(workoutResults)}">
 
                         <div th:each="workoutResult, status: ${workoutResults}" class="carousel-item"
                              th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
-                            <div class="div-carousel" id="workoutCarousel">
+                            <div class="div-carousel" id="workoutResultCarousel">
                                 <h1 th:text="'Workout ' + ${workoutResult.name}">name</h1>
 
                                 <table class="table table-bordered">
@@ -45,13 +45,13 @@
                                         <td class = "center-text"
                                             th:text="${exerciseResult.exercise.name}"></td>
                                         <td class = "center-text"
-                                            th:text="${exerciseResult.exercise.hasReps ? exerciseResult.repsCount : '&#10003'}"></td>
+                                            th:text="${exerciseResult.exercise.hasReps ? exerciseResult.repsCount : '&#10799'}"></td>
                                         <td class = "center-text"
-                                            th:text="${exerciseResult.exercise.hasWeight ? exerciseResult.weight : '&#10003'}"></td>
+                                            th:text="${exerciseResult.exercise.hasWeight ? exerciseResult.weight : '&#10799'}"></td>
                                         <td class = "center-text"
-                                            th:text="${exerciseResult.exercise.hasSeries ? exerciseResult.seriesCount : '&#10003'}"></td>
+                                            th:text="${exerciseResult.exercise.hasSeries ? exerciseResult.seriesCount : '&#10799'}"></td>
                                         <td class = "center-text"
-                                            th:text="${exerciseResult.exercise.hasTime ? exerciseResult.time : '&#10003'}"></td>
+                                            th:text="${exerciseResult.exercise.hasTime ? exerciseResult.time : '&#10799'}"></td>
                                         <td class = "center-text">
                                             <div class="hover-element"  th:title="${exerciseResult.exercise.description}">
                                                 &#128712;
@@ -60,24 +60,27 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button type="submit" name="submitBtn" class="btn btn-light"
-                                        th:attr="data-workout-id=${workoutResult.id}">Submit</button>
+
+                                <form id="deleteWorkoutResultForm" th:action="@{'delete-workoutResult/' + ${workoutResult.id}}" method="post">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="button" class="btn btn-light" onclick="confirmDelete()">Delete</button>
+                                </form>
 
                             </div>
                         </div>
-                        <div class="carousel-item" id="lastItemWorkCarousel">
+                        <div class="carousel-item" id="lastItemWorkResultCarousel">
                             <div class="">
                                 <h1>No more workout results to display</h1>
                                 <a href="/list-workouts" class="btn btn-light"
-                                   id="addWorkoutSecond">Would like to fill the results to new workout?</a>
+                                   id="addWorkoutResultSecond">Would you like to fill the results to new workout?</a>
                             </div>
                         </div>
                     </div>
                     <div th:unless="${not #lists.isEmpty(workoutResults)}">
                         <div class="carousel-item active" data-bs-interval="10000">
-                            <div class="div-carousel" id="noExerciseCarousel">
-                                <h1>No workouts to display</h1>
-                                <a href="/add-workout" class="btn btn-light" id = "addWorkout">Add new workout</a>
+                            <div class="div-carousel" id="noWorkoutResultCarousel">
+                                <h1>No workout results to display</h1>
+                                <a href="/list-workouts" class="btn btn-light" id = "addWorkoutResult">Fill the workout with results!</a>
                             </div>
                         </div>
                     </div>
@@ -99,30 +102,16 @@
     </div>
 
 
-</form>
+</div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var submitBtns = document.querySelectorAll('.listWorkoutsForm [name="submitBtn"]');
-
-        submitBtns.forEach(function(btn) {
-            btn.addEventListener('click', function(event) {
-                event.preventDefault();
-                var workoutId = this.getAttribute('data-workout-id');
-
-                if (workoutId) {
-
-                    document.getElementById('workoutId').value = workoutId;
-
-                    document.querySelector('.listWorkoutsForm').submit();
-                } else {
-
-                    console.error('Workout ID is empty');
-                }
-            });
-        });
-    });
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete this workout result?")) {
+            document.getElementById("deleteWorkoutResultForm").submit();
+        } else {
+        }
+    }
 </script>
 
 </body>

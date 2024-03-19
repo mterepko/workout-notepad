@@ -437,6 +437,25 @@ th {
     vertical-align: middle;
 }
 
+.listWorkoutResultsForm .carousel-inner {
+    height: 36rem;
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.listWorkoutResultsForm  .btn {
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.listWorkoutResultsForm .center-text{
+    text-align: center;
+    vertical-align: middle;
+}
+
 .workoutForm .center-text{
     text-align: center;
     vertical-align: middle;
