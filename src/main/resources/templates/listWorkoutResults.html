@@ -24,6 +24,14 @@
                 <div class="carousel-inner">
                     <div th:if="${not #lists.isEmpty(workoutResults)}">
 
+                        <div th:if="${errorMessage}" class="alert alert-danger">
+                            <div th:text="${errorMessage}"></div>
+                        </div>
+
+                        <div th:if="${successMessage}" class="alert alert-success">
+                            <div th:text="${successMessage}"></div>
+                        </div>
+
                         <div th:each="workoutResult, status: ${workoutResults}" class="carousel-item"
                              th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
                             <div class="div-carousel" id="workoutResultCarousel">
@@ -61,8 +69,8 @@
                                     </tbody>
                                 </table>
 
-                                <form id="deleteWorkoutResultForm" th:action="@{'delete-workoutResult/' + ${workoutResult.id}}" method="post">
-                                    <input type="hidden" name="_method" value="DELETE">
+                                <form id="deleteWorkoutResultForm" th:action="@{'delete-workoutResult/'
+                                + ${workoutResult.id}}" th:method="delete">
                                     <button type="button" class="btn btn-light" onclick="confirmDelete()">Delete</button>
                                 </form>
 
@@ -77,6 +85,9 @@
                         </div>
                     </div>
                     <div th:unless="${not #lists.isEmpty(workoutResults)}">
+                        <div th:if="${successMessage}" class="alert alert-success">
+                            <div th:text="${successMessage}"></div>
+                        </div>
                         <div class="carousel-item active" data-bs-interval="10000">
                             <div class="div-carousel" id="noWorkoutResultCarousel">
                                 <h1>No workout results to display</h1>

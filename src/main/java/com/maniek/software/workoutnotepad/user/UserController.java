@@ -5,6 +5,7 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsExceptio
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.workout.*;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultNoExistsException;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRepository;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultService;
@@ -12,8 +13,10 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.AbstractBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.security.Principal;
@@ -164,7 +167,24 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-workoutResult/{id}")
-    public String deleteWorkoutResult(@PathVariable("id") Long id, Principal principal){
+    public String deleteWorkoutResult(@PathVariable("id") Long id, Principal principal,
+                                      RedirectAttributes redirectAttributes) {
+
+        try{
+            String workoutResultName = workoutResultService.deleteWorkoutResult(principal.getName(),id);
+            redirectAttributes.addFlashAttribute("successMessage",
+                    String.format("Results of workout %s have been deleted!", workoutResultName));
+        } catch (WorkoutResultNoExistsException e){
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "You don't have such workout completed!");
+
+        }
+
+        return "redirect:/list-workout-results";
+    }
+
+    @PostMapping()
+    public String updateWorkoutResults(Model model, Principal principal){
 
 
         return "listWorkoutResults";

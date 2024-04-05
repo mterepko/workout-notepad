@@ -1,10 +1,13 @@
 package com.maniek.software.workoutnotepad.workoutResult;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
+
 @AllArgsConstructor
 public class CustomWorkoutResultRepositoryImpl implements CustomWorkoutResultRepository{
 
@@ -20,5 +23,24 @@ public class CustomWorkoutResultRepositoryImpl implements CustomWorkoutResultRep
         query.setParameter("data", username);
 
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<WorkoutResult> findUsersWorkoutResultById(String username, Long id) {
+        try{
+            TypedQuery<WorkoutResult> query = entityManager.createQuery(
+                    "SELECT wr from WorkoutResult wr WHERE wr.id = :id AND wr.user.username = :username",
+                    WorkoutResult.class
+            );
+            query.setParameter("id", id);
+            query.setParameter("username", username);
+
+            WorkoutResult workoutResult = query.getSingleResult();
+
+            return Optional.of(workoutResult);
+
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
     }
 }

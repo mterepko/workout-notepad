@@ -27,7 +27,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             query.setParameter("data", username);
             User user = query.getSingleResult();
 
-            // Fetch exercises separately
             List<Exercise> exercises = entityManager.createQuery(
                             "SELECT e FROM Exercise e WHERE e.user = :user "
                                     + "ORDER BY e.creationDate DESC", Exercise.class
@@ -37,7 +36,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
             user.setListOfExercises(exercises);
 
-            // Fetch workouts separately
             List<Workout> workouts = entityManager.createQuery(
                             "SELECT w FROM Workout w WHERE w.user = :user "
                                     + "ORDER BY w.creationDate DESC", Workout.class
@@ -46,7 +44,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                     .getResultList();
 
             user.setListOfWorkouts(workouts);
-            // fetch workout results
+
             List<WorkoutResult> workoutResults = entityManager.createQuery(
                             "SELECT w FROM WorkoutResult w WHERE w.user = :user "
                                     + "ORDER BY w.workoutDate DESC", WorkoutResult.class
@@ -55,7 +53,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                     .getResultList();
 
             user.setListOfWorkoutResults(workoutResults);
-
 
             return Optional.of(user);
         } catch (NoResultException e) {
@@ -89,10 +86,11 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
             query.setParameter("data", username);
             User user = query.getSingleResult();
 
-
             return Optional.of(user);
         } catch (NoResultException e) {
             return Optional.empty();
         }
     }
+
+
 }

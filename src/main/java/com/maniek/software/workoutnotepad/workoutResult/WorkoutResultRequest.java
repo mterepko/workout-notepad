@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class WorkoutResultRequest {
 
+
     private String name;
 
     private  Long workoutId;

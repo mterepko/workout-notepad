@@ -19,6 +19,10 @@ spring:
   h2:
     console:
       enabled: false
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 logging:
   level:
     org:

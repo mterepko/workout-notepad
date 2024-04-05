@@ -17,4 +17,17 @@ public class WorkoutResultService {
 
         return workoutResultRepository.findWorkoutResultsByUsername(username);
     }
+
+    public String deleteWorkoutResult(String name, Long id) throws WorkoutResultNoExistsException {
+
+        WorkoutResult workoutResult = workoutResultRepository.findUsersWorkoutResultById(name, id).orElse(null);
+
+        if(workoutResult == null){
+            throw new WorkoutResultNoExistsException("There is no such workout result!");
+        }
+        String workoutResultName = workoutResult.getName();
+        workoutResultRepository.delete(workoutResult);
+
+        return workoutResultName;
+    }
 }

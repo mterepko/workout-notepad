@@ -11,6 +11,7 @@ import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
 import com.maniek.software.workoutnotepad.workout.*;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
+import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRepository;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -163,6 +164,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
     }
+
+
 
 
 
