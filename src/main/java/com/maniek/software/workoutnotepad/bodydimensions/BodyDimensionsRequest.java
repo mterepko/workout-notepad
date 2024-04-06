@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class BodyDimensionsRequest {
 
-    private String gender;
-
     private double weight;
 
     private double height;

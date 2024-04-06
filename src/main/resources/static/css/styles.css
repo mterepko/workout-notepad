@@ -97,17 +97,17 @@ th {
 }
 
 .container h1 {
-    font-size: 28px;
+    font-size: 26px;
 }
-
+.div-carousel h1{
+    width: 500px;
+}
 .col-bd {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-
-
 
 .col-custom-small{
     text-align: center;
@@ -184,7 +184,6 @@ th {
     font-size: 20px;
 }
 
-
 .bodyDimensionForm input {
     width: 300px;
     margin: 0 auto;
@@ -258,7 +257,6 @@ th {
     outline: none;
 }
 
-
 .div-input > textarea {
     resize: none;
     border: 1px solid #333;
@@ -282,13 +280,9 @@ th {
     margin-top: 60px;
 }
 
-
 .form-check {
     text-align: left;
 }
-
-
-
 
 .form-check-label::before {
     content: "";
@@ -299,8 +293,8 @@ th {
     position: absolute;
     top: 3px;
     left: 0px;
-
 }
+
 .form-check-label::after {
     content: "";
     display: inline-block;
@@ -316,13 +310,11 @@ th {
 
 }
 
-
 .form-check-label {
     font-size: 18px;
     position: relative;
     display: inline-block;
     padding-left: 28px;
-
 }
 
 .exerciseForm {
@@ -373,7 +365,6 @@ th {
 .workoutForm .table {
     font-size: 14px;
     width: 100%;
-
 }
 
 .workoutForm h2 {
@@ -498,4 +489,11 @@ th {
 
 .fillWorkoutResult .container{
     margin-top: 50px;
+}
+
+.fillWorkoutResult .alert{
+    width: 300px;
+    font-size: 12px;
+    text-align: center;
+    margin: 0 auto;
 }

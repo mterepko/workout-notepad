@@ -17,13 +17,13 @@ public class ExerciseResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int repsCount;
+    private Integer repsCount;
 
-    private double weight;
+    private Double weight;
 
-    private int seriesCount;
+    private Integer seriesCount;
 
-    private int time;
+    private Integer time;
 
 
     @ManyToOne
@@ -33,11 +33,11 @@ public class ExerciseResult {
     private WorkoutResult workoutResult;
 
 
-    public ExerciseResult(int repsCount, double weight, int seriesCount, int time, Exercise exercise) {
-        this.repsCount = repsCount;
-        this.weight = weight;
-        this.seriesCount = seriesCount;
-        this.time = time;
+    public ExerciseResult(Integer repsCount, Double weight, Integer seriesCount, Integer time, Exercise exercise) {
+        this.repsCount = exercise.isHasReps() == true ? repsCount : null;
+        this.weight = exercise.isHasWeight() == true ? weight : null;
+        this.seriesCount = exercise.isHasSeries() == true ? seriesCount : null;
+        this.time = exercise.isHasTime() == true ? time : null;
         this.exercise = exercise;
     }
 }

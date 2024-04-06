@@ -158,8 +158,13 @@ public class UserController {
 
     @PostMapping("/add-workoutResult")
     public String addWorkoutResult(@Valid WorkoutResultRequest workoutResultRequest, BindingResult bindingResult,
-                                   Principal principal){
+                                   Model model, Principal principal){
 
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("workout", workoutService.findWorkoutById(workoutResultRequest.getWorkoutId()));
+            model.addAttribute("workoutResultRequest", workoutResultRequest);
+            return "addWorkoutResult";
+        }
         userService.addWorkoutResult(principal.getName(), workoutResultRequest);
 
 

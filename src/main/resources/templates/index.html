@@ -78,7 +78,8 @@
                             <div th:each="exercise, status: ${exercises}" class="carousel-item"
                                  th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
                                 <div class="div-carousel" id="exerciseCarousel">
-                                    <h1 th:text="'Exercise ' + ${exercise.name}">name</h1>
+                                    <h1 th:text="'Exercise'"></h1>
+                                    <h1 th:text="${exercise.name}"></h1>
                                 </div>
                             </div>
                             <div class="carousel-item" id="lastItemExCarousel">
@@ -117,7 +118,8 @@
                             <div th:each="workout, status: ${workouts}" class="carousel-item"
                                  th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
                                 <div class="div-carousel">
-                                    <h1 th:text="'Workout ' + ${workout.name}">name</h1>
+                                    <h1 th:text="'Workout'"></h1>
+                                    <h1 th:text="${workout.name}"></h1>
                                 </div>
                             </div>
                             <div class="carousel-item">
