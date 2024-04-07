@@ -29,6 +29,8 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/images/**")
                         .permitAll()
+                        .requestMatchers("/register/success")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(form ->

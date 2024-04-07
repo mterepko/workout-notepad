@@ -5,10 +5,7 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsExceptio
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.workout.*;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultNoExistsException;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRepository;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultService;
+import com.maniek.software.workoutnotepad.workoutResult.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -131,7 +128,6 @@ public class UserController {
             model.addAttribute("otherUsersExercises", exerciseService.findOtherUsersExercises(principal.getName()));
             model.addAttribute("workoutRequest", workoutRequest);
             return "addWorkout";
-
         }
 
         return "redirect:/";
@@ -165,8 +161,20 @@ public class UserController {
             model.addAttribute("workoutResultRequest", workoutResultRequest);
             return "addWorkoutResult";
         }
-        userService.addWorkoutResult(principal.getName(), workoutResultRequest);
-
+        try{
+            userService.addWorkoutResult(principal.getName(), workoutResultRequest);
+        } catch (WorkoutResultExistsException | WorkoutResultNameExistsException e){
+            if(e instanceof WorkoutResultExistsException){
+                bindingResult.rejectValue("name", "workoutResultRequest.name",
+                        ((WorkoutResultExistsException) e).getMessage());
+            } else {
+                bindingResult.rejectValue("name", "workoutResultRequest.name",
+                        ((WorkoutResultNameExistsException) e).getMessage());
+            }
+            model.addAttribute("workout", workoutService.findWorkoutById(workoutResultRequest.getWorkoutId()));
+            model.addAttribute("workoutResultRequest", workoutResultRequest);
+            return "addWorkoutResult";
+        }
 
         return "redirect:/";
     }
@@ -182,15 +190,12 @@ public class UserController {
         } catch (WorkoutResultNoExistsException e){
             redirectAttributes.addFlashAttribute("errorMessage",
                     "You don't have such workout completed!");
-
         }
-
         return "redirect:/list-workout-results";
     }
 
     @PostMapping()
     public String updateWorkoutResults(Model model, Principal principal){
-
 
         return "listWorkoutResults";
     }

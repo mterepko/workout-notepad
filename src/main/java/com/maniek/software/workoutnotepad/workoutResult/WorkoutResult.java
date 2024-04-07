@@ -8,9 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 @Getter
@@ -58,4 +57,35 @@ public class WorkoutResult {
         exerciseResult.setWorkoutResult(this);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorkoutResult workoutResult = (WorkoutResult) o;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        if (!Objects.equals(formatter.format(workoutDate), formatter.format(workoutResult.workoutDate))) return false;
+        if (!Objects.equals(workout, workoutResult.workout)) return false;
+
+
+        return areExerciseResultListsEqual(listOfExerciseResults, workoutResult.listOfExerciseResults);
+        //return Objects.equals(listOfExerciseResults, workoutResult.listOfExerciseResults);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = workoutDate != null ? workoutDate.hashCode() : 0;
+        result = 31 * result + (workout != null ? workout.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (listOfExerciseResults != null ? listOfExerciseResults.hashCode() : 0);
+        return result;
+    }
+
+    private <T> boolean areExerciseResultListsEqual(List<T> list1, List<T> list2) {
+        Set<T> set1 = new HashSet<>(list1);
+        Set<T> set2 = new HashSet<>(list2);
+
+        return set1.equals(set2);
+    }
 }

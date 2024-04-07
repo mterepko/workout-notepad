@@ -77,6 +77,23 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     }
 
     @Override
+    public Optional<User> findUserWithWorkoutResultsByUsername(String username) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u LEFT JOIN FETCH u.listOfWorkoutResults WHERE u.username = :data",
+                    User.class
+            );
+            query.setParameter("data", username);
+            User user = query.getSingleResult();
+
+            return Optional.of(user);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+
+    @Override
     public Optional<User> findUserWithExercisesByUsername(String username) {
         try {
             TypedQuery<User> query = entityManager.createQuery(

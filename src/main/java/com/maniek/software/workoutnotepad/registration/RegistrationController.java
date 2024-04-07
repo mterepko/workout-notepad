@@ -37,7 +37,6 @@ public class RegistrationController {
             return "signUpForm";
         }
 
-
         return "redirect:/register/success";
     }
 

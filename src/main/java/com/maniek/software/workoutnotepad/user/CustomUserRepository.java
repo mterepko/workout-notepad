@@ -10,6 +10,8 @@ public interface CustomUserRepository {
 
     Optional<User> findUserWithWorkoutsByUsername(String username);
 
+    Optional<User> findUserWithWorkoutResultsByUsername(String username);
+
     Optional<User> findUserWithExercisesByUsername(String username);
 
 

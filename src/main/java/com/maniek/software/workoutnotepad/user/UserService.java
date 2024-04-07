@@ -10,9 +10,7 @@ import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
 import com.maniek.software.workoutnotepad.workout.*;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRepository;
-import com.maniek.software.workoutnotepad.workoutResult.WorkoutResultRequest;
+import com.maniek.software.workoutnotepad.workoutResult.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -139,8 +137,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest){
-        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
+    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest) throws WorkoutResultExistsException, WorkoutResultNameExistsException {
+        User user = userRepository.findUserWithWorkoutResultsByUsername(name).orElse(null);
 
         if(user == null) return;
 
@@ -160,19 +158,19 @@ public class UserService implements UserDetailsService {
             ));
 
         }
+
+        boolean workoutResultNameExists = user.getListOfWorkoutResults().stream()
+                .anyMatch(existingWorkoutResult -> existingWorkoutResult.getName().equals(workoutResultRequest.getName()));
+
+        boolean workoutResultExists = user.getListOfWorkoutResults().stream()
+                .anyMatch(existingWorkoutResult -> existingWorkoutResult.equals(workoutResult));
+
+        if(workoutResultExists){
+            throw new WorkoutResultExistsException("You already have exactly the same workout completed!");
+        } else if(workoutResultNameExists){
+            throw new WorkoutResultNameExistsException("You already have a completed workout with this name!");
+        }
         user.addWorkoutResult(workoutResult);
         userRepository.save(user);
-
     }
-
-
-
-
-
-
-
-
-
-
-
 }
