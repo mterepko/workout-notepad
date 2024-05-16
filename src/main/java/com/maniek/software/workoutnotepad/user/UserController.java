@@ -51,8 +51,8 @@ public class UserController {
     }
 
     @PostMapping("/add-measurements")
-    public String addBodyDimensions(@Valid BodyDimensionsRequest bodyDimensionsRequest, Model model,
-                                    BindingResult bindingResult, Principal principal){
+    public String addBodyDimensions(@Valid BodyDimensionsRequest bodyDimensionsRequest, BindingResult bindingResult,
+                                    Model model, Principal principal){
 
         if(bindingResult.hasErrors()){
             model.addAttribute("bodyDimensionsRequest", bodyDimensionsRequest);
