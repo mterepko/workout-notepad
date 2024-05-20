@@ -207,12 +207,18 @@ th {
     padding-right: 200px;
 }
 
-#addBodyDimensionsBtn, #addExercise, #addExerciseSecond, #addNewWorkout, #addNewWorkoutSecond {
+#addBodyDimensionsBtn, #addBodyDimensionsBtnSecond, #addExercise, #addExerciseSecond, #addNewWorkout, #addNewWorkoutSecond {
     width: 200px;
     border: 1px solid #333;
     border-radius: 0;
 }
+.greetings-display {
+    text-align: center;
+}
 
+.div-body-dimension {
+    text-align: center;
+}
 .col-bd {
     text-align: center;
 }

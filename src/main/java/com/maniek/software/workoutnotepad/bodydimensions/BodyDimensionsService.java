@@ -9,8 +9,10 @@ public class BodyDimensionsService {
 
     private final BodyDimensionsRepository bodyDimensionsRepository;
 
-    public void create(BodyDimensions bodyDimensions) {
+    public BodyDimensions findUsersLatestBodyDimensions(String username){
 
-        bodyDimensionsRepository.save(bodyDimensions);
+       BodyDimensions bodyDimensions = bodyDimensionsRepository.findUserLatestBodyDimensions(username).orElse(null);
+
+       return bodyDimensions;
     }
 }

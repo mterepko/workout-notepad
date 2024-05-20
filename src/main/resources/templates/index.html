@@ -15,8 +15,8 @@
 
 <div class="container">
     <div class="row">
-        <div th:if="${not #lists.isEmpty(bodyDimension)}" class="col-md-6 col-bd-display">
-            <h1>
+        <div th:if="${bodyDimension != null}" class="col-md-6 col-bd-display">
+            <h1 class = "greetings-display">
                 <span>Welcome </span>
                 <span sec:authentication="name"></span>
             </h1>
@@ -65,8 +65,12 @@
                 </tr>
                 </tbody>
             </table>
+            <div class = "div-body-dimension">
+                <a href="/add-measurements" class="btn btn-light" id="addBodyDimensionsBtnSecond">Add measurements</a>
+            </div>
+
         </div>
-        <div th:unless="${not #lists.isEmpty(bodyDimension)}" class="col-md-6 col-bd">
+        <div th:unless="${bodyDimension != null}" class="col-md-6 col-bd">
             <h1>no measurements to display</h1>
             <a href="/add-measurements" class="btn btn-light" id="addBodyDimensionsBtn">Add measurements</a>
         </div>

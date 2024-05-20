@@ -21,38 +21,11 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
 
         try {
             TypedQuery<User> query = entityManager.createQuery(
-                    "SELECT u FROM User u LEFT JOIN FETCH u.listOfBodyDimensions WHERE u.username = :data",
+                    "SELECT u FROM User u WHERE u.username = :data",
                     User.class
             );
             query.setParameter("data", username);
             User user = query.getSingleResult();
-
-            List<Exercise> exercises = entityManager.createQuery(
-                            "SELECT e FROM Exercise e WHERE e.user = :user "
-                                    + "ORDER BY e.creationDate DESC", Exercise.class
-                    )
-                    .setParameter("user", user)
-                    .getResultList();
-
-            user.setListOfExercises(exercises);
-
-            List<Workout> workouts = entityManager.createQuery(
-                            "SELECT w FROM Workout w WHERE w.user = :user "
-                                    + "ORDER BY w.creationDate DESC", Workout.class
-                    )
-                    .setParameter("user", user)
-                    .getResultList();
-
-            user.setListOfWorkouts(workouts);
-
-            List<WorkoutResult> workoutResults = entityManager.createQuery(
-                            "SELECT w FROM WorkoutResult w WHERE w.user = :user "
-                                    + "ORDER BY w.workoutDate DESC", WorkoutResult.class
-                    )
-                    .setParameter("user", user)
-                    .getResultList();
-
-            user.setListOfWorkoutResults(workoutResults);
 
             return Optional.of(user);
         } catch (NoResultException e) {

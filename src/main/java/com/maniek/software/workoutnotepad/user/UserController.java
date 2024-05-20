@@ -1,6 +1,8 @@
 package com.maniek.software.workoutnotepad.user;
 
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsService;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
@@ -24,6 +26,8 @@ public class UserController {
 
     private final UserService userService;
 
+    private final BodyDimensionsService bodyDimensionsService;
+
     private final ExerciseService exerciseService;
     
     private final WorkoutService workoutService;
@@ -36,7 +40,7 @@ public class UserController {
         User tempUser = userService.findUserByUsername(principal.getName());
 
         model.addAttribute("user", userService.findUserByUsername(principal.getName()));
-        model.addAttribute("bodyDimension", tempUser.getListOfBodyDimensions());
+        model.addAttribute("bodyDimension", bodyDimensionsService.findUsersLatestBodyDimensions(principal.getName()));
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
         return "index";
@@ -62,6 +66,14 @@ public class UserController {
         userService.addBodyDimensions(principal.getName(), bodyDimensionsRequest);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/list-measurements")
+    public String listMeasurements(Model model, Principal principal){
+
+
+
+        return "listBodyDimensions";
     }
 
     @GetMapping("/add-exercise")
