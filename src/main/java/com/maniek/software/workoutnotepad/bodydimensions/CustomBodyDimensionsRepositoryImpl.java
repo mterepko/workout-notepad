@@ -1,11 +1,13 @@
 package com.maniek.software.workoutnotepad.bodydimensions;
 
+import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.workoutResult.WorkoutResult;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 @AllArgsConstructor
 public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsRepository{
@@ -13,11 +15,11 @@ public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsR
     private final EntityManager entityManager;
 
     @Override
-    public Optional<BodyDimensions> findUserLatestBodyDimensions(String username) {
+    public Optional<BodyDimensions> findUsersLatestBodyDimensions(String username) {
         try{
             TypedQuery<BodyDimensions> query = entityManager.createQuery(
-                    "SELECT bd from BodyDimensions bd WHERE bd.user.username = :username ORDER BY bd.creationDate DESC LIMIT 1",
-                    BodyDimensions.class
+                    "SELECT bd from BodyDimensions bd WHERE bd.user.username = :username "
+                            + "ORDER BY bd.creationDate DESC LIMIT 1", BodyDimensions.class
             );
             query.setParameter("username", username);
 
@@ -29,4 +31,34 @@ public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsR
             return Optional.empty();
         }
     }
+
+    @Override
+    public List<BodyDimensions> findUsersBodyDimensions(String username) {
+        try {
+
+            TypedQuery<BodyDimensions> query = entityManager.createQuery(
+                            "SELECT bd from BodyDimensions bd WHERE bd.user.username = :username "
+                                    + "ORDER BY bd.creationDate", BodyDimensions.class
+                    );
+            query.setParameter("username", username);
+
+            List<BodyDimensions> listOfBodyDimensions = query.getResultList();
+            return listOfBodyDimensions;
+        } catch (NoResultException e) {
+            return List.of();
+        }
+    }
+
+    @Override
+    public Double findUsersHeight(String username) {
+
+        BodyDimensions bodyDimensions = findUsersLatestBodyDimensions(username).orElse(null);
+
+        if(bodyDimensions == null){
+            return null;
+        }
+
+        return bodyDimensions.getHeight();
+    }
+
 }

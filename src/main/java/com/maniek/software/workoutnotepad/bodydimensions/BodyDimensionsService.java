@@ -3,6 +3,8 @@ package com.maniek.software.workoutnotepad.bodydimensions;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class BodyDimensionsService {
@@ -11,8 +13,14 @@ public class BodyDimensionsService {
 
     public BodyDimensions findUsersLatestBodyDimensions(String username){
 
-       BodyDimensions bodyDimensions = bodyDimensionsRepository.findUserLatestBodyDimensions(username).orElse(null);
+       BodyDimensions bodyDimensions = bodyDimensionsRepository.findUsersLatestBodyDimensions(username).orElse(null);
 
        return bodyDimensions;
     }
+
+    public List<BodyDimensions> findUsersBodyDimensions(String username) {
+
+        return bodyDimensionsRepository.findUsersBodyDimensions(username);
+    }
+
 }

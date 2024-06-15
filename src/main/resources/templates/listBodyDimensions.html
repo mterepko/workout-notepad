@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="myFunction">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your measurements!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="/static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
+
+
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/header :: navLoggedIn}" id="navbarLoggedIn">
+
+</nav>
+
+
+<div class="container">
+    <div th:if="${not #lists.isEmpty(listOfBodyDimensions)}" class="bd-div">
+        <h1>
+            <span sec:authentication="name"></span>
+            <span>- let's see your measurements!</span>
+        </h1>
+        <div class = "bd-height">
+            <div th:text="${'Your height - ' + listOfBodyDimensions.get(0).getHeight() + ' cm'}"></div>
+        </div>
+        <div class = "bd-height">
+            <a href="/update-height" class="btn btn-light" id="updateHeight">Update your height!</a>
+        </div>
+            <div th:class="${#lists.size(listOfBodyDimensions) > 10} ? 'div-table-adjusted' : 'div-table'">
+                <table class="table table-bordered">
+                    <thead class = "fixed-header">
+                    <tr>
+                        <th>weight</th>
+                        <th>biceps size</th>
+                        <th>calf size</th>
+                        <th>chest size</th>
+                        <th>forearm size</th>
+                        <th>hips size</th>
+                        <th>neck size</th>
+                        <th>thigh size</th>
+                        <th>waist size</th>
+                        <th>creation date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="bodyDimensions : ${listOfBodyDimensions}">
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getWeight() + ' kg'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getBicepsSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getCalfSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getChestSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getForearmSize()+ ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getHipsSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getNeckSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getThighSize() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getWeight() + ' cm'}"></td>
+                        <td class = "center-text"
+                            th:text="${bodyDimensions.getCreationDate()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a href="/add-measurements" class="btn btn-light">Add measurements</a>
+    </div>
+    <div th:unless="${not #lists.isEmpty(listOfBodyDimensions)}">
+        <div class="bd-no-results">
+            <h1>You have no measurements to display</h1>
+            <a href="/add-measurements" class="btn btn-light">Add measurements</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

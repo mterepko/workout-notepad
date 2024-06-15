@@ -90,7 +90,6 @@ th {
 .carousel-inner {
     height: 15rem;
     display: flex;
-
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -124,6 +123,51 @@ th {
     font-family: Verdana;
     font-size: 20px;
 
+}
+
+.bd-height {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+
+.bd-no-results {
+    text-align: center;
+}
+
+.bd-div {
+    text-align: center;
+}
+
+.bd-div .div-table {
+    max-height: 470px;
+    overflow-y: auto;
+}
+
+.bd-div .div-table-adjusted {
+    max-height: 453px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.bd-div .fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.bd-div .btn {
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.bd-div h1 {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.bd-div td, tr {
+    text-align: center;
 }
 
 .registrationForm #inputUsername {
@@ -278,8 +322,75 @@ th {
     padding-left: 40px;
 }
 
+.div-list-exercises {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.div-list-exercises .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.bd-no-results .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.div-list-exercises .fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.div-list-exercises .div-table {
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.div-list-exercises .div-table-adjusted {
+    max-height: 535px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.empty-div {
+    text-align: center;
+}
+
+.empty-div .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
 .bodyDimensionForm .container {
     margin-top: 60px;
+}
+
+.updateHeightForm {
+    margin-top: 5vh;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 20px;
+}
+
+.updateHeightForm  .btn {
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 0;
+}
+
+.updateHeightForm #inputHeight {
+    width: 200px;
+    margin: 0 auto;
+    border-radius: 0;
+    border: 1px solid #333;
+    text-align: center;
+    padding-left: 25px;
 }
 
 .exerciseForm .container {
@@ -333,6 +444,9 @@ th {
 .exerciseForm .form-check-input {
     padding-left: 40px;
 }
+
+
+
 .workoutForm {
     margin-top: 5vh;
     text-align: center;

@@ -1,6 +1,8 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsHeightRequest;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRepository;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 
 import com.maniek.software.workoutnotepad.exercise.Exercise;
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
     private final WorkoutRepository workoutRepository;
+    private final BodyDimensionsRepository bodyDimensionsRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -66,20 +69,58 @@ public class UserService implements UserDetailsService {
 
     public void addBodyDimensions(String name, BodyDimensionsRequest bodyDimensionsRequest){
 
-        User user = userRepository.findByUsername(name).orElse(null);
+        User user = userRepository.findUserWithBodyDimensions(name).orElse(null);
 
         if(user == null) return;
 
-        user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
-                bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
-                bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
-                bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
-                bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
+        if(user.getListOfBodyDimensions().isEmpty()){
+            user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
+                    bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
+                    bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
+                    bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
+                    bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
+        } else {
+
+            Double userHeight = user.getListOfBodyDimensions().get(0).getHeight();
+            user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), userHeight,
+                    bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
+                    bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
+                    bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
+                    bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
+        }
 
         userRepository.save(user);
-
-
     }
+
+    public boolean userHasBodyDimensions(String username){
+
+        User user = userRepository.findUserWithBodyDimensions(username).orElse(null);
+
+        return !user.getListOfBodyDimensions().isEmpty();
+    }
+
+    public void updateUsersHeight(String username, BodyDimensionsHeightRequest bodyDimensionsHeightRequest) throws DuplicateUsersHeightException {
+        User user = userRepository.findUserWithBodyDimensions(username).orElse(null);
+        if(user.getListOfBodyDimensions().isEmpty()){
+            return;
+        }
+
+        if(user.getListOfBodyDimensions().get(0).getHeight() == bodyDimensionsHeightRequest.getHeight()){
+            throw new DuplicateUsersHeightException(String.format("Your height already is %,.2fcm",
+                    bodyDimensionsHeightRequest.getHeight()));
+        }
+
+        for(BodyDimensions bodyDimensions : user.getListOfBodyDimensions()){
+            bodyDimensions.setHeight(bodyDimensionsHeightRequest.getHeight());
+        }
+        userRepository.save(user);
+    }
+
+    public Double getUserHeight(String username){
+
+        return bodyDimensionsRepository.findUsersHeight(username);
+    }
+
 
     public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
 

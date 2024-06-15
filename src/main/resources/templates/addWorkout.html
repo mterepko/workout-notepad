@@ -63,45 +63,45 @@
                     <h2>Your exercises</h2>
                 <div th:if="${not #lists.isEmpty(exercises)}">
                     <div th:class="${#lists.size(exercises) > 10} ? 'div-table-adjusted' : 'div-table'">
-                <table class="table table-bordered">
-                    <thead class = "fixed-header">
-                    <tr>
-                        <th>Name</th>
-                        <th>Reps</th>
-                        <th>Weight</th>
-                        <th>Series</th>
-                        <th>Time</th>
-                        <th>Description</th>
-                        <th>Select</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="exercise : ${exercises}">
-                        <td class = "center-text" th:text="${exercise.name}"></td>
-                        <td class = "center-text" th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
-                        <td class = "center-text" th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
-                        <td class = "center-text" th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
-                        <td class = "center-text" th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
-                        <td class = "center-text" >
-                            <div class="hover-element"  th:title="${exercise.description}">
-                                &#128712;
-                            </div>
-                        </td>
-                        <td class = "center-text">
-                            <div th:if="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
-                                <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
-                                       th:checked="${#lists.contains(workoutRequest.exerciseIds, exercise.id)}"
-                                       onchange="updateSelectedExercisesCount()" />
-                            </div>
-                            <div th:unless="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
-                                <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
-                                       onchange="updateSelectedExercisesCount()" />
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                </div>
+                        <table class="table table-bordered">
+                            <thead class = "fixed-header">
+                            <tr>
+                                <th>Name</th>
+                                <th>Reps</th>
+                                <th>Weight</th>
+                                <th>Series</th>
+                                <th>Time</th>
+                                <th>Description</th>
+                                <th>Select</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="exercise : ${exercises}">
+                                <td class = "center-text" th:text="${exercise.name}"></td>
+                                <td class = "center-text" th:text="${exercise.hasReps ? '&#10003': '&#10799'}"></td>
+                                <td class = "center-text" th:text="${exercise.hasWeight ? '&#10003': '&#10799'}"></td>
+                                <td class = "center-text" th:text="${exercise.hasSeries ? '&#10003': '&#10799'}"></td>
+                                <td class = "center-text" th:text="${exercise.hasTime ? '&#10003': '&#10799'}"></td>
+                                <td class = "center-text" >
+                                    <div class="hover-element"  th:title="${exercise.description}">
+                                        &#128712;
+                                    </div>
+                                </td>
+                                <td class = "center-text">
+                                    <div th:if="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
+                                        <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
+                                               th:checked="${#lists.contains(workoutRequest.exerciseIds, exercise.id)}"
+                                               onchange="updateSelectedExercisesCount()" />
+                                    </div>
+                                    <div th:unless="${not #lists.isEmpty(workoutRequest.exerciseIds)}">
+                                        <input type="checkbox" name="selectedExercise" th:value="${exercise.id}"
+                                               onchange="updateSelectedExercisesCount()" />
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div th:unless="${not #lists.isEmpty(exercises)}" class="empty-div">
                     <h1>NO EXERCISES TO DISPLAY</h1>

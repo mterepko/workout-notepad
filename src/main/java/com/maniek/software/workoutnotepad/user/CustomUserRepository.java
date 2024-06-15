@@ -14,5 +14,5 @@ public interface CustomUserRepository {
 
     Optional<User> findUserWithExercisesByUsername(String username);
 
-
+    Optional<User> findUserWithBodyDimensions(String username);
 }

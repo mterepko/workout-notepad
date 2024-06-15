@@ -1,6 +1,7 @@
 package com.maniek.software.workoutnotepad.user;
 
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
+import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsHeightRequest;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsService;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
@@ -37,8 +38,6 @@ public class UserController {
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
 
-        User tempUser = userService.findUserByUsername(principal.getName());
-
         model.addAttribute("user", userService.findUserByUsername(principal.getName()));
         model.addAttribute("bodyDimension", bodyDimensionsService.findUsersLatestBodyDimensions(principal.getName()));
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
@@ -47,8 +46,14 @@ public class UserController {
     }
 
     @GetMapping("/add-measurements")
-    public String addBodyDimensions(Model model){
+    public String addBodyDimensions(Model model, Principal principal){
 
+        if(userService.userHasBodyDimensions(principal.getName()))
+        {
+            model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
+
+            return "addSecondBodyDimensions";
+        }
         model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
 
         return "addBodyDimensions";
@@ -71,9 +76,41 @@ public class UserController {
     @GetMapping("/list-measurements")
     public String listMeasurements(Model model, Principal principal){
 
-
+        model.addAttribute("listOfBodyDimensions", bodyDimensionsService.findUsersBodyDimensions(principal.getName()));
 
         return "listBodyDimensions";
+    }
+
+    @GetMapping("update-height")
+    public String updateUserHeight(Model model){
+
+        model.addAttribute("bodyDimensionsHeightRequest", new BodyDimensionsHeightRequest());
+
+        return "updateHeight";
+    }
+
+    @PostMapping("update-height")
+    public String updateUserHeight(@Valid BodyDimensionsHeightRequest bodyDimensionsHeightRequest,
+                                   BindingResult bindingResult, Model model, Principal principal){
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("bodyDimensionsHeightRequest", bodyDimensionsHeightRequest);
+            System.out.println("IAM IN");
+            System.out.println(bindingResult);
+            return "updateHeight";
+        }
+
+        try {
+            userService.updateUsersHeight(principal.getName(), bodyDimensionsHeightRequest);
+        } catch (DuplicateUsersHeightException e) {
+            bindingResult.rejectValue("height", "bodyDimensionsHeightRequest.height",
+                    e.getMessage());
+            model.addAttribute("newHeightRequest", bodyDimensionsHeightRequest);
+
+            return "updateHeight";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/add-exercise")
@@ -103,6 +140,14 @@ public class UserController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/list-exercises")
+    public String listExercises(Model model, Principal principal){
+
+        model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
+
+        return "listExercises";
     }
 
     @GetMapping("/add-workout")

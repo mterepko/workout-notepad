@@ -82,5 +82,21 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         }
     }
 
+    @Override
+    public Optional<User> findUserWithBodyDimensions(String username) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u LEFT JOIN FETCH u.listOfBodyDimensions bd WHERE u.username = :data"
+                            + " ORDER BY bd.creationDate ASC",
+                    User.class
+            );
+            query.setParameter("data", username);
+            User user = query.getSingleResult();
+
+            return Optional.of(user);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
 
 }

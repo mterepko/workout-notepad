@@ -55,9 +55,8 @@
         <br>
         <label for="inputDescription" class="form-label">Description</label>
 
-        <textarea maxlength="255" th:field="*{description}" class="form-control" id="inputDescription"></textarea>
+        <textarea th:field="*{description}" class="form-control" id="inputDescription"></textarea>
       </div>
-
 
       <div class="" id="exerciseSubmit">
         <br>
@@ -66,13 +65,8 @@
     </div>
   </div>
 
-
-
 </form>
 
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-
 </body>
 </html>
