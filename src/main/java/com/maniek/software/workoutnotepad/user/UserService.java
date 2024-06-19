@@ -121,7 +121,6 @@ public class UserService implements UserDetailsService {
         return bodyDimensionsRepository.findUsersHeight(username);
     }
 
-
     public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
 
         User user = userRepository.findUserWithExercisesByUsername(name).orElse(null);
@@ -142,8 +141,6 @@ public class UserService implements UserDetailsService {
             throw new ExerciseAlreadyExistsException("This user already have the same exercise");
         }
 
-
-
         user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
                 exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),
                 exerciseRequest.getDescription(), new Date()));
@@ -163,7 +160,6 @@ public class UserService implements UserDetailsService {
         boolean workoutExists = user.getListOfWorkouts().stream()
                 .anyMatch(existingWorkout -> existingWorkout.equals(
                         new Workout(workoutRequest.getName(), new Date(), exerciseList)));
-
 
         boolean workoutNameExists = user.getListOfWorkouts().stream()
                 .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));

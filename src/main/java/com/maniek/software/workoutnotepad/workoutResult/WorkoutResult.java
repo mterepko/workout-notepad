@@ -68,7 +68,6 @@ public class WorkoutResult {
         if (!Objects.equals(formatter.format(workoutDate), formatter.format(workoutResult.workoutDate))) return false;
         if (!Objects.equals(workout, workoutResult.workout)) return false;
 
-
         return areExerciseResultListsEqual(listOfExerciseResults, workoutResult.listOfExerciseResults);
         //return Objects.equals(listOfExerciseResults, workoutResult.listOfExerciseResults);
     }

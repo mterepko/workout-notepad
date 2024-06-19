@@ -60,5 +60,4 @@ public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsR
 
         return bodyDimensions.getHeight();
     }
-
 }

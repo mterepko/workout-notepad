@@ -11,8 +11,6 @@ public class WorkoutResultService {
 
     private final WorkoutResultRepository workoutResultRepository;
 
-
-
     public List<WorkoutResult> workoutResultsByUsername(String username){
 
         return workoutResultRepository.findWorkoutResultsByUsername(username);

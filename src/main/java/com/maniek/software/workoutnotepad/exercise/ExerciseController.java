@@ -10,6 +10,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExerciseController {
 
-    private final ExerciseService exerciseService;
-    private final UserService userService;
 }

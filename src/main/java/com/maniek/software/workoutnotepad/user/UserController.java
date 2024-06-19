@@ -7,6 +7,7 @@ import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsService;
 import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
 import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
+import com.maniek.software.workoutnotepad.quote.QuoteService;
 import com.maniek.software.workoutnotepad.workout.*;
 import com.maniek.software.workoutnotepad.workoutResult.*;
 import jakarta.validation.Valid;
@@ -34,6 +35,8 @@ public class UserController {
     private final WorkoutService workoutService;
 
     private final WorkoutResultService workoutResultService;
+
+    private final QuoteService quoteService;
 
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
@@ -208,7 +211,6 @@ public class UserController {
         return "addWorkoutResult";
     }
 
-
     @PostMapping("/add-workoutResult")
     public String addWorkoutResult(@Valid WorkoutResultRequest workoutResultRequest, BindingResult bindingResult,
                                    Model model, Principal principal){
@@ -257,7 +259,6 @@ public class UserController {
         return "listWorkoutResults";
     }
 
-
     @GetMapping("/list-workout-results")
     public String listWorkoutResults(Model model, Principal principal){
 
@@ -266,5 +267,11 @@ public class UserController {
         return "listWorkoutResults";
     }
 
+    @GetMapping("/suck")
+    public String saveTheQuote(){
 
+        quoteService.getAndSaveQuote();
+
+        return "listWorkoutResults";
+    }
 }

@@ -31,6 +31,8 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/register/success")
                         .permitAll()
+                        .requestMatchers("/suck")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(form ->
@@ -44,10 +46,8 @@ public class WebSecurityConfig {
                 )
                 .authenticationProvider(daoAuthenticationProvider());
 
-
         return http.build();
     }
-
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

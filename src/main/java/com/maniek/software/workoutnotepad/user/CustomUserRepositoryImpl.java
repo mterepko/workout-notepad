@@ -65,7 +65,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         }
     }
 
-
     @Override
     public Optional<User> findUserWithExercisesByUsername(String username) {
         try {

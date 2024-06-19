@@ -40,7 +40,6 @@ public class RegistrationController {
         return "redirect:/register/success";
     }
 
-
     @GetMapping("/register")
     public String register(final Model model) {
         model.addAttribute("registrationRequest", new RegistrationRequest());
