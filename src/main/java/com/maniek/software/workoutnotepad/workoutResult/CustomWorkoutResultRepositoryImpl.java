@@ -43,4 +43,23 @@ public class CustomWorkoutResultRepositoryImpl implements CustomWorkoutResultRep
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<WorkoutResult> findUsersWorkoutResultWithExerciseResultsById(String username, Long id) {
+        try{
+            TypedQuery<WorkoutResult> query = entityManager.createQuery(
+                    "SELECT wr from WorkoutResult wr JOIN FETCH wr.listOfExerciseResults er"
+                        + " WHERE wr.id = :id AND wr.user.username = :username", WorkoutResult.class
+            );
+            query.setParameter("id", id);
+            query.setParameter("username", username);
+
+            WorkoutResult workoutResult = query.getSingleResult();
+
+            return Optional.of(workoutResult);
+
+        } catch (NoResultException e){
+            return Optional.empty();
+        }
+    }
 }

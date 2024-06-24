@@ -159,8 +159,9 @@
     </div>
 </div>
 
-<div>
-    <p>RANDOM QUOTE</p>
+<div class = "quote-div">
+    <p class="quote-message" th:text="${'&quot;' + quote.getMessage() + '&quot;'}">RANDOM QUOTE</p>
+    <p class="quote-author" th:text="${quote.getAuthor()}">RANDOM QUOTE AUTHOR</p>
 </div>
 
 

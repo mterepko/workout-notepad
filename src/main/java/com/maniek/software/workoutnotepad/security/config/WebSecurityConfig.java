@@ -31,8 +31,6 @@ public class WebSecurityConfig {
                         .permitAll()
                         .requestMatchers("/register/success")
                         .permitAll()
-                        .requestMatchers("/suck")
-                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .formLogin(form ->

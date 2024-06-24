@@ -45,6 +45,7 @@ public class UserController {
         model.addAttribute("bodyDimension", bodyDimensionsService.findUsersLatestBodyDimensions(principal.getName()));
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
+        model.addAttribute("quote", quoteService.getAndSaveQuote());
         return "index";
     }
 
@@ -253,24 +254,18 @@ public class UserController {
         return "redirect:/list-workout-results";
     }
 
-    @PostMapping()
-    public String updateWorkoutResults(Model model, Principal principal){
+    @GetMapping("/update-workout-results")
+    public String updateWorkoutResults(Model model, Principal principal) throws WorkoutResultNoExistsException {
 
-        return "listWorkoutResults";
+        model.addAttribute("workout", workoutService.findWorkoutById(1L));
+        model.addAttribute("workoutResultRequest", workoutResultService.getWorkoutResultRequest(principal.getName(), (long) 1));
+        return "updateWorkoutResult";
     }
 
     @GetMapping("/list-workout-results")
     public String listWorkoutResults(Model model, Principal principal){
 
         model.addAttribute("workoutResults", workoutResultService.workoutResultsByUsername(principal.getName()));
-
-        return "listWorkoutResults";
-    }
-
-    @GetMapping("/suck")
-    public String saveTheQuote(){
-
-        quoteService.getAndSaveQuote();
 
         return "listWorkoutResults";
     }

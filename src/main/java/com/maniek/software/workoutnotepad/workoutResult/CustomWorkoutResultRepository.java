@@ -8,4 +8,6 @@ public interface CustomWorkoutResultRepository {
     List<WorkoutResult> findWorkoutResultsByUsername(String username);
 
     Optional<WorkoutResult> findUsersWorkoutResultById(String username, Long id);
+
+    Optional<WorkoutResult> findUsersWorkoutResultWithExerciseResultsById(String username, Long id);
 }

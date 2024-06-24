@@ -112,6 +112,14 @@ th {
     text-align: center;
 }
 
+.quote-div {
+    text-align: center;
+}
+
+.quote-div .quote-message {
+    font-size: 22px;
+}
+
 .separator {
     position: relative;
 
