@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -23,7 +24,7 @@ public class WorkoutResult {
 
     private String name;
 
-    private Date workoutDate;
+    private LocalDate workoutDate;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
@@ -38,7 +39,7 @@ public class WorkoutResult {
     @OneToMany(mappedBy = "workoutResult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<ExerciseResult> listOfExerciseResults;
 
-    public WorkoutResult(String name, Workout workout, Date workoutDate){
+    public WorkoutResult(String name, Workout workout, LocalDate workoutDate){
         this.name = name;
         this.workout = workout;
         this.workoutDate = workoutDate;
@@ -64,8 +65,7 @@ public class WorkoutResult {
 
         WorkoutResult workoutResult = (WorkoutResult) o;
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        if (!Objects.equals(formatter.format(workoutDate), formatter.format(workoutResult.workoutDate))) return false;
+        if (!Objects.equals(workoutDate, workoutResult.workoutDate)) return false;
         if (!Objects.equals(workout, workoutResult.workout)) return false;
 
         return areExerciseResultListsEqual(listOfExerciseResults, workoutResult.listOfExerciseResults);

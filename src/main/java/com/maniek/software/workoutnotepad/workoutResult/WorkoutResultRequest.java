@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +26,7 @@ public class WorkoutResultRequest {
     private  Long workoutId;
 
     @FutureDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date workoutDate;
+    private LocalDate workoutDate;
 
     @Valid
     private List<ExerciseResultRequest> exerciseResults;
