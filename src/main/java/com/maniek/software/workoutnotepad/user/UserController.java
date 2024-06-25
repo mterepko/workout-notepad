@@ -239,8 +239,8 @@ public class UserController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/delete-workoutResult/{id}")
-    public String deleteWorkoutResult(@PathVariable("id") Long id, Principal principal,
+    @DeleteMapping("/delete-workoutResult")
+    public String deleteWorkoutResult(@RequestParam(name = "workoutResultId") Long id, Principal principal,
                                       RedirectAttributes redirectAttributes) {
 
         try{
@@ -254,11 +254,12 @@ public class UserController {
         return "redirect:/list-workout-results";
     }
 
-    @GetMapping("/update-workout-results")
-    public String updateWorkoutResults(Model model, Principal principal) throws WorkoutResultNoExistsException {
+    @GetMapping("/update-workoutResult")
+    public String updateWorkoutResults(@RequestParam(name = "workoutResultId") Long id,Model model,
+                                       Principal principal) throws WorkoutResultNoExistsException {
 
         model.addAttribute("workout", workoutService.findWorkoutById(1L));
-        model.addAttribute("workoutResultRequest", workoutResultService.getWorkoutResultRequest(principal.getName(), (long) 1));
+        model.addAttribute("workoutResultRequest", workoutResultService.getWorkoutResultRequest(principal.getName(), id));
         return "updateWorkoutResult";
     }
 

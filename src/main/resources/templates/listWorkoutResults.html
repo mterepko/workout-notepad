@@ -68,12 +68,14 @@
                                     </tr>
                                     </tbody>
                                 </table>
-
-                                <form id="deleteWorkoutResultForm" th:action="@{'delete-workoutResult/'
-                                + ${workoutResult.id}}" th:method="delete">
+                                <form id="updateWorkoutResultForm" th:action="@{/update-workoutResult}" th:method="post">
+                                    <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
+                                    <button type="submit" class="btn btn-light">Update</button>
+                                </form>
+                                <form id="deleteWorkoutResultForm" th:action="@{/delete-workoutResult}" th:method="delete">
+                                    <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
                                     <button type="button" class="btn btn-light" onclick="confirmDelete()">Delete</button>
                                 </form>
-
                             </div>
                         </div>
                         <div class="carousel-item" id="lastItemWorkResultCarousel">
@@ -123,6 +125,7 @@
         } else {
         }
     }
+
 </script>
 
 </body>
