@@ -21,22 +21,16 @@
             <input type="hidden" id="workoutResultId" name="workoutResultId" value=""/>
             <h1 th:if="${not #lists.isEmpty(workoutResults)}">Your already done workouts. GOOD JOB! :)</h1>
             <div id="slides" class="carousel carousel-dark slide">
-                <div class="carousel-inner">
+                <div class="carousel-inner wr-carousel">
                     <div th:if="${not #lists.isEmpty(workoutResults)}">
-
-                        <div th:if="${errorMessage}" class="alert alert-danger">
-                            <div th:text="${errorMessage}"></div>
-                        </div>
-
-                        <div th:if="${successMessage}" class="alert alert-success">
-                            <div th:text="${successMessage}"></div>
-                        </div>
 
                         <div th:each="workoutResult, status: ${workoutResults}" class="carousel-item"
                              th:classappend="${status.index == 0} ? 'active' : ''"  data-bs-interval="10000">
                             <div class="div-carousel" id="workoutResultCarousel">
                                 <h1 th:text="'Workout ' + ${workoutResult.name}">name</h1>
-
+                                <div th:if="${workoutResult.workoutDate != null}">
+                                    <h1 th:text="'Date of the workout: ' + ${workoutResult.workoutDate}"></h1>
+                                </div>
                                 <table class="table table-bordered">
                                     <thead class = "fixed-header">
                                     <tr>
@@ -68,14 +62,17 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <form id="updateWorkoutResultForm" th:action="@{/update-workoutResult}" th:method="post">
-                                    <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
-                                    <button type="submit" class="btn btn-light">Update</button>
-                                </form>
-                                <form id="deleteWorkoutResultForm" th:action="@{/delete-workoutResult}" th:method="delete">
-                                    <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
-                                    <button type="button" class="btn btn-light" onclick="confirmDelete()">Delete</button>
-                                </form>
+                                <div class="div-wr-buttons">
+                                    <form id="updateWorkoutResultForm" th:action="@{/update-workoutResult}" th:method="get">
+                                        <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
+                                        <button type="submit" class="btn btn-light">Update</button>
+                                    </form>
+                                    <form id="deleteWorkoutResultForm" th:action="@{/delete-workoutResult}" th:method="delete">
+                                        <input type="hidden" name="workoutResultId" th:value="${workoutResult.id}" />
+                                        <button type="button" class="btn btn-light" onclick="confirmDelete()">Delete</button>
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
                         <div class="carousel-item" id="lastItemWorkResultCarousel">
@@ -111,10 +108,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping("/")
     public String homePage(Principal principal, Model model) {
 
-        model.addAttribute("user", userService.findUserByUsername(principal.getName()));
+        model.addAttribute("user", userService.findByUsername(principal.getName()));
         model.addAttribute("bodyDimension", bodyDimensionsService.findUsersLatestBodyDimensions(principal.getName()));
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
@@ -255,13 +255,33 @@ public class UserController {
     }
 
     @GetMapping("/update-workoutResult")
-    public String updateWorkoutResults(@RequestParam(name = "workoutResultId") Long id,Model model,
-                                       Principal principal) throws WorkoutResultNoExistsException {
+    public String updateWorkoutResult(@RequestParam(name = "workoutResultId") Long id,Model model,
+                                       Principal principal) {
 
-        model.addAttribute("workout", workoutService.findWorkoutById(1L));
+        model.addAttribute("workout", workoutService.findWorkoutByWorkoutResultId(id));
         model.addAttribute("workoutResultRequest", workoutResultService.getWorkoutResultRequest(principal.getName(), id));
         return "updateWorkoutResult";
     }
+
+    @PostMapping("/update-workoutResult")
+    public String updateWorkoutResults(@RequestParam(name = "workoutResultId") Long id, WorkoutResultRequest workoutResultRequest,
+                                       BindingResult bindingResult, Model model, Principal principal) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("workout", workoutService.findWorkoutByWorkoutResultId(id));
+            model.addAttribute("workoutResultRequest", workoutResultService.getWorkoutResultRequest(principal.getName(), id));
+            return "updateWorkoutResult";
+        }
+
+        try {
+            userService.updateWorkoutResult(principal.getName(), id, workoutResultRequest);
+        } catch (WorkoutResultNoExistsException e) {
+            throw new RuntimeException("There was an issue with the Workout Result update");
+        }
+
+        return "redirect:/";
+    }
+
 
     @GetMapping("/list-workout-results")
     public String listWorkoutResults(Model model, Principal principal){

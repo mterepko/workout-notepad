@@ -4,6 +4,7 @@ import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.user.User;
 import com.maniek.software.workoutnotepad.workout.Workout;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -20,4 +20,10 @@ public class ExerciseService {
 
         return exerciseRepository.findUsersExercises(username);
     }
+
+    public Exercise findById(Long id){
+
+        return exerciseRepository.findById(id).orElseThrow(() -> new RuntimeException("No such exercise."));
+    }
+
 }

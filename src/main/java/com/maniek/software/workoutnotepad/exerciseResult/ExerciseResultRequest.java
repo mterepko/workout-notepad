@@ -14,6 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ExerciseResultRequest {
 
+    private Long exerciseResultId;
+
     @NotNull
     private Long exerciseId;
 
@@ -24,4 +26,8 @@ public class ExerciseResultRequest {
     private Integer seriesCount;
 
     private Integer timeOfExerciseSeconds;
+
+
 }
+
+

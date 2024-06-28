@@ -49,4 +49,20 @@ public class CustomWorkoutRepositoryImpl implements CustomWorkoutRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<Workout> findWorkoutByWorkoutResultId(Long workoutResultId) {
+        try {
+            TypedQuery<Workout> query = entityManager.createQuery(
+                    "SELECT w FROM Workout w JOIN FETCH w.exercises JOIN w.workoutResults wr WHERE wr.id = :data",
+                    Workout.class
+            );
+            query.setParameter("data", workoutResultId);
+
+            Workout workout = query.getSingleResult();
+            return Optional.of(workout);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
 }

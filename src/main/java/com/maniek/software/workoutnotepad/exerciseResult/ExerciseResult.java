@@ -43,6 +43,15 @@ public class ExerciseResult {
         this.exercise = exercise;
     }
 
+    public ExerciseResult(Long id, Integer repsCount, Double weight, Integer seriesCount, Integer time, Exercise exercise) {
+        this.id = id;
+        this.repsCount = exercise.isHasReps() == true ? repsCount : null;
+        this.weight = exercise.isHasWeight() == true ? weight : null;
+        this.seriesCount = exercise.isHasSeries() == true ? seriesCount : null;
+        this.time = exercise.isHasTime() == true ? time : null;
+        this.exercise = exercise;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -15,24 +15,23 @@
 
 </nav>
 
-<form class="fillWorkoutResult" action="#" method="post" th:action="@{/add-workoutResult}" th:object="${workoutResultRequest}">
+<form class="fillWorkoutResult" action="#" method="post" th:action="@{/update-workoutResult}" th:object="${workoutResultRequest}">
     <div class="container">
         <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
             <div th:each="err : ${#fields.errors('*')}" th:text="${err}"></div>
         </div>
         <div class="div-input mb-3">
-            <label for="inputName" class="form-label">Name of the workout</label>
-            <input type="text" th:field="*{name}"  class="form-control" id="inputName">
             <label for="inputWorkoutDate" class="form-label">Date of the workout</label>
             <input type="date" th:field="*{workoutDate}"  class="form-control" id="inputWorkoutDate">
             <br>
             <h3>Fill exercises data :)</h3>
-            <input type="hidden" name="workoutId"  th:value="${param.workoutId}" />
+            <input type="hidden" name="workoutResultId"  th:value="${param.workoutResultId}" />
         </div>
         <div class="row">
             <div th:each="exercise, status : ${workout.exercises}"
                  th:class="${#lists.size(workout.exercises) > 1} ? 'col-md-6' : ''">
                 <h2 th:text="${'Exercise ' + (status.index + 1) + ': ' + exercise.name}"></h2>
+
 
                 <div th:if="${exercise.hasSeries}">
                     <label th:text="${'series'}"></label>
@@ -55,11 +54,10 @@
                            class="form-control"/>
                 </div>
                 <input type="hidden" th:value="${exercise.id}" th:name="${'exerciseResults[__${status.index}__].exerciseId'}"/>
+                <input type="hidden" th:field="*{exerciseResults[__${status.index}__].exerciseResultId}"/>
                 <br>
             </div>
         </div>
-
-
         <div>
             <button type="submit" name="submitBtn" class="btn btn-light">Submit</button>
         </div>

@@ -13,6 +13,7 @@ import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
 import com.maniek.software.workoutnotepad.workout.*;
 import com.maniek.software.workoutnotepad.workoutResult.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,16 +33,19 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
     private final WorkoutRepository workoutRepository;
+    private final WorkoutResultService workoutResultService;
     private final BodyDimensionsRepository bodyDimensionsRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
     }
 
+    @Transactional
     public void singUpUser(User user) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
         boolean usernameExists = userRepository.findUserByUsername(user.getUsername())
                 .isPresent();
@@ -61,9 +65,9 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public User findUserByUsername(String username){
+    public User findByUsername(String username){
 
-        return userRepository.findUserByUsername(username).orElse(null);
+        return userRepository.findByUsername(username).orElse(null);
 
     }
 
@@ -99,7 +103,9 @@ public class UserService implements UserDetailsService {
         return !user.getListOfBodyDimensions().isEmpty();
     }
 
-    public void updateUsersHeight(String username, BodyDimensionsHeightRequest bodyDimensionsHeightRequest) throws DuplicateUsersHeightException {
+    public void updateUsersHeight(String username, BodyDimensionsHeightRequest bodyDimensionsHeightRequest)
+            throws DuplicateUsersHeightException {
+
         User user = userRepository.findUserWithBodyDimensions(username).orElse(null);
         if(user.getListOfBodyDimensions().isEmpty()){
             return;
@@ -174,7 +180,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest) throws WorkoutResultExistsException, WorkoutResultNameExistsException {
+    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest)
+            throws WorkoutResultExistsException, WorkoutResultNameExistsException {
+
         User user = userRepository.findUserWithWorkoutResultsByUsername(name).orElse(null);
 
         if(user == null) return;
@@ -210,4 +218,13 @@ public class UserService implements UserDetailsService {
         user.addWorkoutResult(workoutResult);
         userRepository.save(user);
     }
+
+    @Transactional
+    public void updateWorkoutResult(String name, Long workoutResultId, WorkoutResultRequest workoutResultRequest)
+            throws WorkoutResultNoExistsException {
+
+        workoutResultService.updateWorkoutResult(name, workoutResultId, workoutResultRequest);
+
+    }
+
 }

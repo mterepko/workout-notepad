@@ -575,6 +575,14 @@ th {
     vertical-align: middle;
 }
 
+.div-wr-buttons form{
+    display: inline-block;
+}
+
+.wr-carousel h1 {
+    width: 100%;
+}
+
 .workoutForm .center-text{
     text-align: center;
     vertical-align: middle;

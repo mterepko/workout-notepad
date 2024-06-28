@@ -1,7 +1,10 @@
 package com.maniek.software.workoutnotepad.workoutResult;
 
+import com.maniek.software.workoutnotepad.exercise.Exercise;
+import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.List;
 public class WorkoutResultService {
 
     private final WorkoutResultRepository workoutResultRepository;
+    private final ExerciseService exerciseService;
 
     public List<WorkoutResult> workoutResultsByUsername(String username){
 
@@ -43,8 +47,10 @@ public class WorkoutResultService {
         List<ExerciseResultRequest> tempExerciseResultRequestList = new ArrayList<>();
 
         for (ExerciseResult exResult : workoutResult.getListOfExerciseResults()) {
-            ExerciseResultRequest tempExResultRequest = new ExerciseResultRequest(exResult.getId(), exResult.getRepsCount(),
-                    exResult.getWeight(), exResult.getSeriesCount(), exResult.getTime());
+
+            ExerciseResultRequest tempExResultRequest = new ExerciseResultRequest(exResult.getId(),
+                    exResult.getExercise().getId(), exResult.getRepsCount(), exResult.getWeight(), exResult.getSeriesCount(),
+                    exResult.getTime());
 
             tempExerciseResultRequestList.add(tempExResultRequest);
         }
@@ -55,6 +61,27 @@ public class WorkoutResultService {
         System.out.println(tempWorkoutResultRequest);
 
         return tempWorkoutResultRequest;
+    }
+
+    @Transactional
+    public void updateWorkoutResult(String username, Long workoutResultId,
+                                    WorkoutResultRequest workoutResultRequest) throws WorkoutResultNoExistsException {
+
+        WorkoutResult workoutResult = workoutResultRepository.findByIdAndUserUsername(workoutResultId, username)
+                .orElseThrow(() -> new WorkoutResultNoExistsException("There is no such workout result!"));
+
+        for(ExerciseResultRequest result : workoutResultRequest.getExerciseResults()){
+
+            Exercise tempExercise = exerciseService.findById(result.getExerciseId());
+
+            ExerciseResult tempExerciseResult = new ExerciseResult(result.getExerciseResultId(), result.getRepsCount(),
+                    result.getWeight(), result.getSeriesCount(), result.getTimeOfExerciseSeconds(), tempExercise);
+
+            workoutResult.addExerciseResult(tempExerciseResult);
+        }
+        workoutResult.setWorkoutDate(workoutResultRequest.getWorkoutDate());
+
+        workoutResultRepository.save(workoutResult);
     }
 
 }

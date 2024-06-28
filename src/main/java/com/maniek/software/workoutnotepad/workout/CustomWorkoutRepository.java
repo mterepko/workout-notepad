@@ -10,4 +10,6 @@ public interface CustomWorkoutRepository {
     List<Workout> findWorkoutsOfOtherUsers(String username);
 
     Optional<Workout> findWorkoutById(Long workoutId);
+
+    Optional<Workout> findWorkoutByWorkoutResultId(Long workoutResultId);
 }

@@ -25,4 +25,9 @@ public class WorkoutService {
 
         return workoutRepository.findWorkoutById(workoutId).orElse(null);
     }
+
+    public Workout findWorkoutByWorkoutResultId(Long workoutResultId) {
+
+        return workoutRepository.findWorkoutByWorkoutResultId(workoutResultId).orElse(null);
+    }
 }
