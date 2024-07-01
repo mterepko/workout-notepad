@@ -33,24 +33,7 @@ public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsR
     }
 
     @Override
-    public List<BodyDimensions> findUsersBodyDimensions(String username) {
-        try {
-
-            TypedQuery<BodyDimensions> query = entityManager.createQuery(
-                            "SELECT bd from BodyDimensions bd WHERE bd.user.username = :username "
-                                    + "ORDER BY bd.creationDate", BodyDimensions.class
-                    );
-            query.setParameter("username", username);
-
-            List<BodyDimensions> listOfBodyDimensions = query.getResultList();
-            return listOfBodyDimensions;
-        } catch (NoResultException e) {
-            return List.of();
-        }
-    }
-
-    @Override
-    public Double findUsersHeight(String username) {
+    public Double findLatestHeightByUserUsername(String username) {
 
         BodyDimensions bodyDimensions = findUsersLatestBodyDimensions(username).orElse(null);
 
@@ -58,6 +41,6 @@ public class CustomBodyDimensionsRepositoryImpl implements CustomBodyDimensionsR
             return null;
         }
 
-        return bodyDimensions.getHeight();
+        return bodyDimensions == null ? null : bodyDimensions.getHeight();
     }
 }

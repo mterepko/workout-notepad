@@ -1,6 +1,5 @@
 package com.maniek.software.workoutnotepad.user;
 
-import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsHeightRequest;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
 import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsService;
@@ -12,9 +11,9 @@ import com.maniek.software.workoutnotepad.workout.*;
 import com.maniek.software.workoutnotepad.workoutResult.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.AbstractBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +23,7 @@ import java.security.Principal;
 
 @Controller
 @AllArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -39,10 +39,9 @@ public class UserController {
     private final QuoteService quoteService;
 
     @GetMapping("/")
-    public String homePage(Principal principal, Model model) {
+    public String homePage( Principal principal, Model model) {
 
-        model.addAttribute("user", userService.findByUsername(principal.getName()));
-        model.addAttribute("bodyDimension", bodyDimensionsService.findUsersLatestBodyDimensions(principal.getName()));
+        model.addAttribute("bodyDimension", userService.getLatestBodyDimensions(principal.getName()));
         model.addAttribute("exercises", exerciseService.findUsersExercises(principal.getName()));
         model.addAttribute("workouts", workoutService.findWorkoutsByUsername(principal.getName()));
         model.addAttribute("quote", quoteService.getAndSaveQuote());
@@ -52,7 +51,7 @@ public class UserController {
     @GetMapping("/add-measurements")
     public String addBodyDimensions(Model model, Principal principal){
 
-        if(userService.userHasBodyDimensions(principal.getName()))
+        if(userService.hasBodyDimensions(principal.getName()))
         {
             model.addAttribute("bodyDimensionsRequest", new BodyDimensionsRequest());
 
@@ -264,7 +263,7 @@ public class UserController {
     }
 
     @PostMapping("/update-workoutResult")
-    public String updateWorkoutResults(@RequestParam(name = "workoutResultId") Long id, WorkoutResultRequest workoutResultRequest,
+    public String updateWorkoutResult(@RequestParam(name = "workoutResultId") Long id, WorkoutResultRequest workoutResultRequest,
                                        BindingResult bindingResult, Model model, Principal principal) {
 
         if(bindingResult.hasErrors()) {

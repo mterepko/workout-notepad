@@ -1,14 +1,8 @@
 package com.maniek.software.workoutnotepad.user;
 
-import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensions;
-import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsHeightRequest;
-import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRepository;
-import com.maniek.software.workoutnotepad.bodydimensions.BodyDimensionsRequest;
+import com.maniek.software.workoutnotepad.bodydimensions.*;
 
-import com.maniek.software.workoutnotepad.exercise.Exercise;
-import com.maniek.software.workoutnotepad.exercise.ExerciseAlreadyExistsException;
-import com.maniek.software.workoutnotepad.exercise.ExerciseRepository;
-import com.maniek.software.workoutnotepad.exercise.ExerciseRequest;
+import com.maniek.software.workoutnotepad.exercise.*;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
 import com.maniek.software.workoutnotepad.workout.*;
@@ -32,9 +26,11 @@ public class UserService implements UserDetailsService {
             "user with username %s not found";
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
+    private final ExerciseService exerciseService;
     private final WorkoutRepository workoutRepository;
+    private final WorkoutService workoutService;
     private final WorkoutResultService workoutResultService;
-    private final BodyDimensionsRepository bodyDimensionsRepository;
+    private final BodyDimensionsService bodyDimensionsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -62,124 +58,80 @@ public class UserService implements UserDetailsService {
         user.setPassword(encodedPassword);
 
         userRepository.save(user);
-
     }
 
-    public User findByUsername(String username){
+    public BodyDimensions getLatestBodyDimensions(String username){
 
-        return userRepository.findByUsername(username).orElse(null);
-
+        return bodyDimensionsService.findUsersLatestBodyDimensions(username);
     }
 
+    @Transactional
     public void addBodyDimensions(String name, BodyDimensionsRequest bodyDimensionsRequest){
 
-        User user = userRepository.findUserWithBodyDimensions(name).orElse(null);
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new RuntimeException("There is no such user"));
 
-        if(user == null) return;
-
-        if(user.getListOfBodyDimensions().isEmpty()){
-            user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), bodyDimensionsRequest.getHeight(),
-                    bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
-                    bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
-                    bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
-                    bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
-        } else {
-
-            Double userHeight = user.getListOfBodyDimensions().get(0).getHeight();
-            user.addBodyDimensions(new BodyDimensions(bodyDimensionsRequest.getWeight(), userHeight,
-                    bodyDimensionsRequest.getNeckSize(), bodyDimensionsRequest.getBicepsSize(),
-                    bodyDimensionsRequest.getChestSize(), bodyDimensionsRequest.getForearmSize(),
-                    bodyDimensionsRequest.getWaistSize(), bodyDimensionsRequest.getHipsSize(),
-                    bodyDimensionsRequest.getThighSize(), bodyDimensionsRequest.getCalfSize(), new Date()));
-        }
+        user.addBodyDimensions(bodyDimensionsService.saveBodyDimensions(bodyDimensionsRequest, name));
 
         userRepository.save(user);
     }
 
-    public boolean userHasBodyDimensions(String username){
+    public boolean hasBodyDimensions(String username){
 
-        User user = userRepository.findUserWithBodyDimensions(username).orElse(null);
-
-        return !user.getListOfBodyDimensions().isEmpty();
+        return bodyDimensionsService.hasUserBodyDimensions(username);
     }
 
-    public void updateUsersHeight(String username, BodyDimensionsHeightRequest bodyDimensionsHeightRequest)
-            throws DuplicateUsersHeightException {
+    @Transactional
+    public void updateUsersHeight(String username, BodyDimensionsHeightRequest bodyDimensionsHeightRequest) {
 
-        User user = userRepository.findUserWithBodyDimensions(username).orElse(null);
-        if(user.getListOfBodyDimensions().isEmpty()){
-            return;
-        }
-
-        if(user.getListOfBodyDimensions().get(0).getHeight() == bodyDimensionsHeightRequest.getHeight()){
-            throw new DuplicateUsersHeightException(String.format("Your height already is %,.2fcm",
-                    bodyDimensionsHeightRequest.getHeight()));
-        }
-
-        for(BodyDimensions bodyDimensions : user.getListOfBodyDimensions()){
-            bodyDimensions.setHeight(bodyDimensionsHeightRequest.getHeight());
-        }
-        userRepository.save(user);
+        bodyDimensionsService.updateHeight(username, bodyDimensionsHeightRequest.getHeight());
     }
 
-    public Double getUserHeight(String username){
+    @Transactional
+    public void addExercise(String name, ExerciseRequest exerciseRequest){
 
-        return bodyDimensionsRepository.findUsersHeight(username);
-    }
+        User user = userRepository.findByUsername(name).orElseThrow(()-> new RuntimeException("There is no such user"));
 
-    public void addExercise(String name, ExerciseRequest exerciseRequest) throws ExerciseAlreadyExistsException {
+        Exercise exercise = exerciseService.createExercise(exerciseRequest, user);
 
-        User user = userRepository.findUserWithExercisesByUsername(name).orElse(null);
-
-        if(user == null) return;
-
-        boolean exerciseExists = user.getListOfExercises().stream()
-                .anyMatch(existingExercise -> existingExercise.equals(new Exercise(
-                        exerciseRequest.getName(),
-                        exerciseRequest.isHasReps(),
-                        exerciseRequest.isHasWeight(),
-                        exerciseRequest.isHasSeries(),
-                        exerciseRequest.isHasTime(),
-                        exerciseRequest.getDescription(),
-                        new Date())));
-
-        if(exerciseExists) {
-            throw new ExerciseAlreadyExistsException("This user already have the same exercise");
-        }
-
-        user.addExercise(new Exercise(exerciseRequest.getName(), exerciseRequest.isHasReps(),
-                exerciseRequest.isHasWeight(), exerciseRequest.isHasSeries(), exerciseRequest.isHasTime(),
-                exerciseRequest.getDescription(), new Date()));
+        user.addExercise(exercise);
 
         userRepository.save(user);
     }
 
-    public void addWorkout(String name, WorkoutRequest workoutRequest)
-            throws WorkoutAlreadyExistsException, WorkoutNameAlreadyExistsException {
+//    public void addWorkout(String name, WorkoutRequest workoutRequest)
+//            throws WorkoutAlreadyExistsException, WorkoutNameAlreadyExistsException {
+//
+//        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
+//
+//        if(user == null) return;
+//
+//        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
+//
+//        boolean workoutExists = user.getListOfWorkouts().stream()
+//                .anyMatch(existingWorkout -> existingWorkout.equals(
+//                        new Workout(workoutRequest.getName(), new Date(), exerciseList)));
+//
+//        boolean workoutNameExists = user.getListOfWorkouts().stream()
+//                .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));
+//
+//        if(workoutExists){
+//            throw new WorkoutAlreadyExistsException("You already have a workout with those exercises");
+//        } else if(workoutNameExists){
+//            throw new WorkoutNameAlreadyExistsException("You already have the workout with this name");
+//        }
+//        user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
+//
+//        userRepository.save(user);
+//    }
 
-        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
+    @Transactional
+    public void addWorkout(String name, WorkoutRequest workoutRequest){
 
-        if(user == null) return;
-
-        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
-
-        boolean workoutExists = user.getListOfWorkouts().stream()
-                .anyMatch(existingWorkout -> existingWorkout.equals(
-                        new Workout(workoutRequest.getName(), new Date(), exerciseList)));
-
-        boolean workoutNameExists = user.getListOfWorkouts().stream()
-                .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));
-
-        if(workoutExists){
-            throw new WorkoutAlreadyExistsException("You already have a workout with those exercises");
-        } else if(workoutNameExists){
-            throw new WorkoutNameAlreadyExistsException("You already have the workout with this name");
-        }
-        user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
-
+        User user = userRepository.findByUsername(name).orElseThrow(()-> new RuntimeException("There is no such user"));
+        Workout workout = workoutService.createWorkout(user, workoutRequest);
+        user.addWorkout(workout);
         userRepository.save(user);
     }
-
     public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest)
             throws WorkoutResultExistsException, WorkoutResultNameExistsException {
 
@@ -224,7 +176,6 @@ public class UserService implements UserDetailsService {
             throws WorkoutResultNoExistsException {
 
         workoutResultService.updateWorkoutResult(name, workoutResultId, workoutResultRequest);
-
     }
 
 }

@@ -533,8 +533,8 @@ th {
 
 }
 
-.listWorkoutsForm #slides {
-
+#workoutCarousel h1 {
+    width: 100%;
 }
 
 .listWorkoutsForm .carousel-inner {

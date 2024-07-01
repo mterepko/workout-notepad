@@ -9,8 +9,6 @@ public interface CustomBodyDimensionsRepository {
 
     Optional<BodyDimensions> findUsersLatestBodyDimensions(String username);
 
-    List<BodyDimensions> findUsersBodyDimensions(String username);
-
-    Double findUsersHeight(String username);
+    Double findLatestHeightByUserUsername(String username);
 
 }
