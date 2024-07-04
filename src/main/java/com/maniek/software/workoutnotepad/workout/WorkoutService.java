@@ -31,7 +31,7 @@ public class WorkoutService {
 
     public Workout findWorkoutById(Long workoutId) {
 
-        return workoutRepository.findWorkoutById(workoutId).orElse(null);
+        return workoutRepository.findWorkoutById(workoutId).orElseThrow(()-> new RuntimeException("No such workout"));
     }
 
     public Workout findWorkoutByWorkoutResultId(Long workoutResultId) {

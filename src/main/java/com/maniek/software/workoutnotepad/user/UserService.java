@@ -25,9 +25,7 @@ public class UserService implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG =
             "user with username %s not found";
     private final UserRepository userRepository;
-    private final ExerciseRepository exerciseRepository;
     private final ExerciseService exerciseService;
-    private final WorkoutRepository workoutRepository;
     private final WorkoutService workoutService;
     private final WorkoutResultService workoutResultService;
     private final BodyDimensionsService bodyDimensionsService;
@@ -98,32 +96,6 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-//    public void addWorkout(String name, WorkoutRequest workoutRequest)
-//            throws WorkoutAlreadyExistsException, WorkoutNameAlreadyExistsException {
-//
-//        User user = userRepository.findUserWithWorkoutsByUsername(name).orElse(null);
-//
-//        if(user == null) return;
-//
-//        List<Exercise> exerciseList = exerciseRepository.findAllByIdIn(workoutRequest.getExerciseIds());
-//
-//        boolean workoutExists = user.getListOfWorkouts().stream()
-//                .anyMatch(existingWorkout -> existingWorkout.equals(
-//                        new Workout(workoutRequest.getName(), new Date(), exerciseList)));
-//
-//        boolean workoutNameExists = user.getListOfWorkouts().stream()
-//                .anyMatch(existingWorkout -> existingWorkout.getName().equals(workoutRequest.getName()));
-//
-//        if(workoutExists){
-//            throw new WorkoutAlreadyExistsException("You already have a workout with those exercises");
-//        } else if(workoutNameExists){
-//            throw new WorkoutNameAlreadyExistsException("You already have the workout with this name");
-//        }
-//        user.addWorkout(new Workout(workoutRequest.getName(), new Date(), exerciseList));
-//
-//        userRepository.save(user);
-//    }
-
     @Transactional
     public void addWorkout(String name, WorkoutRequest workoutRequest){
 
@@ -132,45 +104,16 @@ public class UserService implements UserDetailsService {
         user.addWorkout(workout);
         userRepository.save(user);
     }
-    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest)
-            throws WorkoutResultExistsException, WorkoutResultNameExistsException {
 
-        User user = userRepository.findUserWithWorkoutResultsByUsername(name).orElse(null);
+    @Transactional
+    public void addWorkoutResult(String name, WorkoutResultRequest workoutResultRequest){
 
-        if(user == null) return;
-
-        Workout workout = workoutRepository.findWorkoutById(workoutResultRequest.getWorkoutId()).orElse(null);
-
-        WorkoutResult workoutResult = new WorkoutResult(workoutResultRequest.getName(),workout, workoutResultRequest.getWorkoutDate());
-
-        for(ExerciseResultRequest exerciseResultRequest : workoutResultRequest.getExerciseResults()){
-
-            Exercise exercise = exerciseRepository.findById(exerciseResultRequest.getExerciseId()).orElse(null);
-            workoutResult.addExerciseResult(new ExerciseResult(
-                    exerciseResultRequest.getRepsCount(),
-                    exerciseResultRequest.getWeight(),
-                    exerciseResultRequest.getSeriesCount(),
-                    exerciseResultRequest.getTimeOfExerciseSeconds(),
-                    exercise
-            ));
-
-        }
-
-        boolean workoutResultNameExists = user.getListOfWorkoutResults().stream()
-                .anyMatch(existingWorkoutResult -> existingWorkoutResult.getName().equals(workoutResultRequest.getName()));
-
-        boolean workoutResultExists = user.getListOfWorkoutResults().stream()
-                .anyMatch(existingWorkoutResult -> existingWorkoutResult.equals(workoutResult));
-
-        if(workoutResultExists){
-            throw new WorkoutResultExistsException("You already have exactly the same workout completed!");
-        } else if(workoutResultNameExists){
-            throw new WorkoutResultNameExistsException("You already have a completed workout with this name!");
-        }
+        User user = userRepository.findByUsername(name).orElseThrow(()-> new RuntimeException("There is no such user"));
+        WorkoutResult workoutResult = workoutResultService.createWorkoutResult(user, workoutResultRequest);
         user.addWorkoutResult(workoutResult);
         userRepository.save(user);
     }
-
+    
     @Transactional
     public void updateWorkoutResult(String name, Long workoutResultId, WorkoutResultRequest workoutResultRequest)
             throws WorkoutResultNoExistsException {

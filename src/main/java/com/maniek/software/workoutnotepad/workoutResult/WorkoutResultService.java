@@ -4,6 +4,9 @@ import com.maniek.software.workoutnotepad.exercise.Exercise;
 import com.maniek.software.workoutnotepad.exercise.ExerciseService;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResult;
 import com.maniek.software.workoutnotepad.exerciseResult.ExerciseResultRequest;
+import com.maniek.software.workoutnotepad.user.User;
+import com.maniek.software.workoutnotepad.workout.Workout;
+import com.maniek.software.workoutnotepad.workout.WorkoutService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,54 @@ public class WorkoutResultService {
 
     private final WorkoutResultRepository workoutResultRepository;
     private final ExerciseService exerciseService;
+    private final WorkoutService workoutService;
 
     public List<WorkoutResult> workoutResultsByUsername(String username){
 
         return workoutResultRepository.findWorkoutResultsByUsername(username);
+    }
+
+    @Transactional
+    public WorkoutResult createWorkoutResult(User user, WorkoutResultRequest workoutResultRequest){
+
+        Workout workout = workoutService.findWorkoutById(workoutResultRequest.getWorkoutId());
+        WorkoutResult workoutResult = new WorkoutResult(workoutResultRequest.getName(), workout,
+                workoutResultRequest.getWorkoutDate());
+
+        for(ExerciseResultRequest exerciseResultRequest : workoutResultRequest.getExerciseResults()){
+
+            Exercise exercise = exerciseService.findById(exerciseResultRequest.getExerciseId());
+            workoutResult.addExerciseResult(new ExerciseResult(
+                    exerciseResultRequest.getRepsCount(),
+                    exerciseResultRequest.getWeight(),
+                    exerciseResultRequest.getSeriesCount(),
+                    exerciseResultRequest.getTimeOfExerciseSeconds(),
+                    exercise
+            ));
+
+        }
+        validateNewWorkoutResult(user, workoutResult);
+
+        return workoutResultRepository.save(workoutResult);
+    }
+
+    private void validateNewWorkoutResult(User user, WorkoutResult newWorkoutResult){
+
+        List<WorkoutResult> existingWorkoutResults = user.getListOfWorkoutResults().stream()
+                .filter(workoutResult -> workoutResult.equals(newWorkoutResult))
+                .toList();
+
+        List<WorkoutResult> duplicatedNameWorkoutResults = user.getListOfWorkoutResults().stream()
+                .filter(workoutResult -> workoutResult.getName().equals(newWorkoutResult.getName()))
+                .toList();
+
+        if(!existingWorkoutResults.isEmpty()){
+            throw new WorkoutResultExistsException("You already have exactly the same workout completed!");
+        }
+
+        if(!duplicatedNameWorkoutResults.isEmpty()){
+            throw new WorkoutResultNameExistsException("You already have a completed workout with this name!");
+        }
     }
 
     public String deleteWorkoutResult(String name, Long id) throws WorkoutResultNoExistsException {
